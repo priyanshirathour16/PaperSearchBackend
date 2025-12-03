@@ -1,9 +1,17 @@
 const sequelize = require('../config/database');
 const Admin = require('./Admin');
+const Journal = require('./Journal');
+const EditorialBoard = require('./EditorialBoard');
+
+// Associations
+Journal.hasMany(EditorialBoard, { foreignKey: 'journal_id', as: 'editorial_board' });
+EditorialBoard.belongsTo(Journal, { foreignKey: 'journal_id', as: 'journal' });
 
 const db = {
     sequelize,
     Admin,
+    Journal,
+    EditorialBoard,
 };
 
 module.exports = db;

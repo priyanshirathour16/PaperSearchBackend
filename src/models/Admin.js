@@ -14,6 +14,10 @@ const Admin = sequelize.define('Admin', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false, // 'admin' or 'author'
+    },
 });
 
 module.exports = Admin;

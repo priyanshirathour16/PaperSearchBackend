@@ -1,0 +1,128 @@
+{
+    "endpoints": [
+        {
+            "method": "POST",
+            "url": "/api/journals",
+            "description": "Create a new journal with editorial board members.",
+            "headers": {
+                "Authorization": "Bearer <admin_token>"
+            },
+            "body": {
+                "title": "Journal of Example Sciences",
+                "print_issn": "1234-5678",
+                "e_issn": "8765-4321",
+                "frequency": "Monthly",
+                "start_year": 2020,
+                "end_year": 2025,
+                "editors": "Dr. Alice, Dr. Bob",
+                "indexation": "Scopus, WoS",
+                "mission": "To publish high quality research...",
+                "aims_scope": "Scope details...",
+                "areas_covered": [
+                    "Computer Science",
+                    "AI"
+                ],
+                "image": "http://example.com/image.jpg",
+                "editorial_board": [
+                    {
+                        "name": "Dr. John Doe",
+                        "position": "Editor in Chief",
+                        "department": "Computer Science",
+                        "profile_link": "https://university.edu/johndoe"
+                    },
+                    {
+                        "name": "Dr. Jane Smith",
+                        "position": "Editorial Advisory Board",
+                        "department": "Mathematics",
+                        "profile_link": "https://university.edu/janesmith"
+                    }
+                ]
+            },
+            "response": {
+                "id": 1,
+                "title": "Journal of Example Sciences",
+                "createdAt": "2023-10-27T10:00:00.000Z",
+                "updatedAt": "2023-10-27T10:00:00.000Z"
+            }
+        },
+        {
+            "method": "GET",
+            "url": "/api/journals",
+            "description": "Get a list of all journals.",
+            "headers": {
+                "Authorization": "Bearer <admin_token>"
+            },
+            "response": [
+                {
+                    "id": 1,
+                    "title": "Journal of Example Sciences",
+                    "print_issn": "1234-5678",
+                    "frequency": "Monthly",
+                    "editorial_board": [
+                        {
+                            "name": "Dr. John Doe",
+                            "position": "Editor in Chief"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "method": "GET",
+            "url": "/api/journals/:id",
+            "description": "Get details of a specific journal by ID.",
+            "headers": {
+                "Authorization": "Bearer <admin_token>"
+            },
+            "response": {
+                "id": 1,
+                "title": "Journal of Example Sciences",
+                "print_issn": "1234-5678",
+                "editorial_board": [
+                    {
+                        "id": 1,
+                        "name": "Dr. John Doe",
+                        "position": "Editor in Chief",
+                        "department": "Computer Science",
+                        "profile_link": "https://university.edu/johndoe"
+                    }
+                ]
+            }
+        },
+        {
+            "method": "PUT",
+            "url": "/api/journals/:id",
+            "description": "Update a journal and its editorial board. Note: This replaces the entire editorial board list.",
+            "headers": {
+                "Authorization": "Bearer <admin_token>"
+            },
+            "body": {
+                "title": "Updated Journal Title",
+                "frequency": "Quarterly",
+                "editorial_board": [
+                    {
+                        "name": "Dr. John Doe",
+                        "position": "Editor in Chief",
+                        "department": "Computer Science"
+                    }
+                ]
+            },
+            "response": {
+                "id": 1,
+                "title": "Updated Journal Title",
+                "frequency": "Quarterly"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "/api/journals/:id",
+            "description": "Delete a journal.",
+            "headers": {
+                "Authorization": "Bearer <admin_token>"
+            },
+            "response": {
+                "message": "Journal deleted successfully"
+            }
+        }
+    ]
+}

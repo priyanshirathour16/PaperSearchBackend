@@ -17,11 +17,13 @@ const seedAdmin = async () => {
         await Admin.create({
             email: 'admin@gmail.com',
             password: hashedPassword,
+            role: 'admin',
         });
 
         await Admin.create({
             email: 'superadmin@gmail.com',
             password: hashedPassword,
+            role: 'author',
         });
 
         console.log('Admin user created');
