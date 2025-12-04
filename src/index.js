@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const db = require('./models');
 const authRoutes = require('./routes/authRoutes');
 const journalRoutes = require('./routes/journalRoutes');
+const journalIssueRoutes = require('./routes/journalIssueRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config();
@@ -18,6 +19,7 @@ console.log(" this is connected");
 
 app.use('/api/auth', authRoutes);
 app.use('/api/journals', journalRoutes);
+app.use('/api/journal-issues', journalIssueRoutes);
 
 
 // Global Error Handler

@@ -2,16 +2,20 @@ const sequelize = require('../config/database');
 const Admin = require('./Admin');
 const Journal = require('./Journal');
 const EditorialBoard = require('./EditorialBoard');
+const JournalIssue = require('./JournalIssue');
 
 // Associations
 Journal.hasMany(EditorialBoard, { foreignKey: 'journal_id', as: 'editorial_board' });
 EditorialBoard.belongsTo(Journal, { foreignKey: 'journal_id', as: 'journal' });
+
+// JournalIssue associations are defined in the JournalIssue model file
 
 const db = {
     sequelize,
     Admin,
     Journal,
     EditorialBoard,
+    JournalIssue,
 };
 
 module.exports = db;
