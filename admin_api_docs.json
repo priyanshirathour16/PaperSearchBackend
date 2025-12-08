@@ -1,0 +1,116 @@
+{
+    "authors": {
+        "getAll": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/authors",
+            "headers": {
+                "Authorization": "Bearer <admin_jwt_token>"
+            },
+            "response": [
+                {
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "email": "john@example.com",
+                    "address": "123 Main St",
+                    "city": "New York",
+                    "state": "NY",
+                    "landMark": "Near Park",
+                    "pincode": "10001",
+                    "country": "USA",
+                    "isd": "+1",
+                    "contactNumber": "1234567890",
+                    "altContactNumber": "0987654321",
+                    "qualification": "PhD",
+                    "specialization": "Physics",
+                    "institute": "MIT",
+                    "jobTitle": "Professor",
+                    "organization": "MIT",
+                    "orgType": "University",
+                    "role": "author",
+                    "createdAt": "2024-01-01T00:00:00.000Z",
+                    "updatedAt": "2024-01-01T00:00:00.000Z"
+                }
+            ]
+        },
+        "getById": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/authors/1",
+            "headers": {
+                "Authorization": "Bearer <admin_jwt_token>"
+            },
+            "response": {
+                "id": 1,
+                "firstName": "John",
+                "lastName": "Doe",
+                "email": "john@example.com",
+                "address": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "landMark": "Near Park",
+                "pincode": "10001",
+                "country": "USA",
+                "isd": "+1",
+                "contactNumber": "1234567890",
+                "altContactNumber": "0987654321",
+                "qualification": "PhD",
+                "specialization": "Physics",
+                "institute": "MIT",
+                "jobTitle": "Professor",
+                "organization": "MIT",
+                "orgType": "University",
+                "role": "author",
+                "createdAt": "2024-01-01T00:00:00.000Z",
+                "updatedAt": "2024-01-01T00:00:00.000Z"
+            }
+        }
+    },
+    "editorApplications": {
+        "getAll": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/editor-applications",
+            "headers": {
+                "Authorization": "Bearer <admin_jwt_token>"
+            },
+            "response": [
+                {
+                    "id": 1,
+                    "journal": "Journal of Computing",
+                    "title": "Mr",
+                    "firstName": "Jane",
+                    "lastName": "Smith",
+                    "email": "jane@example.com",
+                    "qualification": "MSc",
+                    "specialization": "AI",
+                    "institute": "Stanford",
+                    "cvFile": "uploads/file-123.pdf",
+                    "status": "pending",
+                    "createdAt": "2024-01-01T00:00:00.000Z",
+                    "updatedAt": "2024-01-01T00:00:00.000Z"
+                }
+            ]
+        },
+        "getById": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/editor-applications/1",
+            "headers": {
+                "Authorization": "Bearer <admin_jwt_token>"
+            },
+            "response": {
+                "id": 1,
+                "journal": "Journal of Computing",
+                "title": "Mr",
+                "firstName": "Jane",
+                "lastName": "Smith",
+                "email": "jane@example.com",
+                "qualification": "MSc",
+                "specialization": "AI",
+                "institute": "Stanford",
+                "cvFile": "uploads/file-123.pdf",
+                "status": "pending",
+                "createdAt": "2024-01-01T00:00:00.000Z",
+                "updatedAt": "2024-01-01T00:00:00.000Z"
+            }
+        }
+    }
+}

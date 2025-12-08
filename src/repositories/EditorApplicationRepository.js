@@ -8,6 +8,18 @@ class EditorApplicationRepository {
     async create(data) {
         return await EditorApplication.create(data);
     }
+
+    async findAll() {
+        return await EditorApplication.findAll({
+            attributes: { exclude: ['password'] }
+        });
+    }
+
+    async findById(id) {
+        return await EditorApplication.findByPk(id, {
+            attributes: { exclude: ['password'] }
+        });
+    }
 }
 
 module.exports = new EditorApplicationRepository();

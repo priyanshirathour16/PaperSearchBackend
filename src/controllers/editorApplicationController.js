@@ -34,3 +34,24 @@ exports.submitApplication = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getAllApplications = async (req, res, next) => {
+    try {
+        const applications = await editorApplicationService.getAllApplications();
+        res.json(applications);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getApplicationById = async (req, res, next) => {
+    try {
+        const application = await editorApplicationService.getApplicationById(req.params.id);
+        res.json(application);
+    } catch (error) {
+        if (error.message === 'Application not found') {
+            return res.status(404).json({ message: error.message });
+        }
+        next(error);
+    }
+};

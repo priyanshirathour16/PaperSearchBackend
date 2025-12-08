@@ -3,6 +3,8 @@ const { body } = require('express-validator');
 const router = express.Router();
 const editorApplicationController = require('../controllers/editorApplicationController');
 const documentUpload = require('../middleware/documentUploadMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
+const roleMiddleware = require('../middleware/roleMiddleware');
 
 router.post(
     '/',
@@ -28,5 +30,9 @@ router.post(
     ],
     editorApplicationController.submitApplication
 );
+
+// Admin only routes
+router.get('/', authMiddleware, roleMiddleware, editorApplicationController.getAllApplications);
+router.get('/:id', authMiddleware, roleMiddleware, editorApplicationController.getApplicationById);
 
 module.exports = router;

@@ -28,6 +28,18 @@ class EditorApplicationService {
 
         return await editorApplicationRepository.create(newApplicationData);
     }
+
+    async getAllApplications() {
+        return await editorApplicationRepository.findAll();
+    }
+
+    async getApplicationById(id) {
+        const application = await editorApplicationRepository.findById(id);
+        if (!application) {
+            throw new Error('Application not found');
+        }
+        return application;
+    }
 }
 
 module.exports = new EditorApplicationService();
