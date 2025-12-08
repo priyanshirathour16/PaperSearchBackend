@@ -1,19 +1,12 @@
 const express = require('express');
 const { body } = require('express-validator');
 const router = express.Router();
-const authController = require('../controllers/authController');
+const editorApplicationController = require('../controllers/editorApplicationController');
+const documentUpload = require('../middleware/documentUploadMiddleware');
 
 router.post(
-    '/login',
-    [
-        body('email').isEmail().withMessage('Please enter a valid email').trim().toLowerCase(),
-        body('password').notEmpty().withMessage('Password is required'),
-    ],
-    authController.login
-);
-
-router.post(
-    '/register',
+    '/',
+    documentUpload.single('file'), // 'file' matches the curl form-data name
     [
         body('firstName').notEmpty().withMessage('First Name is required'),
         body('lastName').notEmpty().withMessage('Last Name is required'),
@@ -31,9 +24,9 @@ router.post(
             }
             return true;
         }),
-        body('role').equals('author').withMessage('Role must be author'),
+        body('journal').notEmpty().withMessage('Journal is required'),
     ],
-    authController.register
+    editorApplicationController.submitApplication
 );
 
 module.exports = router;

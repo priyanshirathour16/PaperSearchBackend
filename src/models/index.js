@@ -1,5 +1,7 @@
 const sequelize = require('../config/database');
 const Admin = require('./Admin');
+const Author = require('./Author');
+const EditorApplication = require('./EditorApplication');
 const Journal = require('./Journal');
 const EditorialBoard = require('./EditorialBoard');
 const JournalIssue = require('./JournalIssue');
@@ -13,6 +15,8 @@ EditorialBoard.belongsTo(Journal, { foreignKey: 'journal_id', as: 'journal' });
 const db = {
     sequelize,
     Admin,
+    Author,
+    EditorApplication,
     Journal,
     EditorialBoard,
     JournalIssue,
