@@ -1,0 +1,49 @@
+{
+    "endpoints": [
+        {
+            "method": "POST",
+            "url": "/api/journal-categories",
+            "description": "Create a new journal category. The route is automatically generated from the title (lowercase, hyphenated).",
+            "headers": {
+                "Authorization": "Bearer <admin_token>"
+            },
+            "body": {
+                "title": "Journal Marketing"
+            },
+            "response": {
+                "id": 1,
+                "title": "Journal Marketing",
+                "route": "journal-marketing",
+                "status": true,
+                "updatedAt": "2023-10-27T10:00:00.000Z",
+                "createdAt": "2023-10-27T10:00:00.000Z"
+            }
+        },
+        {
+            "method": "GET",
+            "url": "/api/journal-categories",
+            "description": "Get a list of all active journal categories.",
+            "response": [
+                {
+                    "id": 1,
+                    "title": "Journal Marketing",
+                    "route": "journal-marketing",
+                    "status": true,
+                    "createdAt": "2023-10-27T10:00:00.000Z",
+                    "updatedAt": "2023-10-27T10:00:00.000Z"
+                }
+            ]
+        },
+        {
+            "method": "DELETE",
+            "url": "/api/journal-categories/:id",
+            "description": "Soft delete a journal category by setting its status to false.",
+            "headers": {
+                "Authorization": "Bearer <admin_token>"
+            },
+            "response": {
+                "message": "Category deleted successfully"
+            }
+        }
+    ]
+}

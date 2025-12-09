@@ -5,6 +5,7 @@ const EditorApplication = require('./EditorApplication');
 const Journal = require('./Journal');
 const EditorialBoard = require('./EditorialBoard');
 const JournalIssue = require('./JournalIssue');
+const JournalCategory = require('./JournalCategory');
 
 // Associations
 Journal.hasMany(EditorialBoard, { foreignKey: 'journal_id', as: 'editorial_board' });
@@ -20,6 +21,7 @@ const db = {
     Journal,
     EditorialBoard,
     JournalIssue,
+    JournalCategory
 };
 
 module.exports = db;

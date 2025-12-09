@@ -7,6 +7,7 @@ const authorRoutes = require('./routes/authorRoutes');
 const journalRoutes = require('./routes/journalRoutes');
 const journalIssueRoutes = require('./routes/journalIssueRoutes');
 const editorApplicationRoutes = require('./routes/editorApplicationRoutes');
+const journalCategoryRoutes = require('./routes/journalCategoryRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use('/api/authors', authorRoutes);
 app.use('/api/journals', journalRoutes);
 app.use('/api/journal-issues', journalIssueRoutes);
 app.use('/api/editor-applications', editorApplicationRoutes);
+app.use('/api/journal-categories', journalCategoryRoutes);
 
 
 // Global Error Handler
