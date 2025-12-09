@@ -3,6 +3,11 @@ const bcrypt = require('bcryptjs');
 
 class EditorApplicationService {
     async submitApplication(data) {
+        if (data.journal) {
+            data.journal_id = data.journal;
+            delete data.journal;
+        }
+
         // Check if email already exists
         const existingApplication = await editorApplicationRepository.findByEmail(data.email);
         if (existingApplication) {

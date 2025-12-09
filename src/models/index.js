@@ -11,7 +11,10 @@ const JournalCategory = require('./JournalCategory');
 Journal.hasMany(EditorialBoard, { foreignKey: 'journal_id', as: 'editorial_board' });
 EditorialBoard.belongsTo(Journal, { foreignKey: 'journal_id', as: 'journal' });
 Journal.belongsTo(JournalCategory, { foreignKey: 'category_id', as: 'category' });
+
 JournalCategory.hasMany(Journal, { foreignKey: 'category_id', as: 'journals' });
+EditorApplication.belongsTo(Journal, { foreignKey: 'journal_id', as: 'journalData' });
+Journal.hasMany(EditorApplication, { foreignKey: 'journal_id', as: 'editorApplications' });
 
 // JournalIssue associations are defined in the JournalIssue model file
 

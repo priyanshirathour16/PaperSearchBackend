@@ -38,7 +38,14 @@ exports.submitApplication = async (req, res, next) => {
 exports.getAllApplications = async (req, res, next) => {
     try {
         const applications = await editorApplicationService.getAllApplications();
-        res.json(applications);
+        const formattedApplications = applications.map(app => {
+            const appJson = app.toJSON();
+            return {
+                ...appJson,
+                journal: app.journalData ? app.journalData.title : 'N/A'
+            };
+        });
+        res.json(formattedApplications);
     } catch (error) {
         next(error);
     }
@@ -47,7 +54,15 @@ exports.getAllApplications = async (req, res, next) => {
 exports.getApplicationById = async (req, res, next) => {
     try {
         const application = await editorApplicationService.getApplicationById(req.params.id);
-        res.json(application);
+        if (!application) {
+            return res.status(404).json({ message: 'Application not found' });
+        }
+        const appJson = application.toJSON();
+        const formattedApplication = {
+            ...appJson,
+            journal: application.journalData ? application.journalData.title : 'N/A'
+        };
+        res.json(formattedApplication);
     } catch (error) {
         if (error.message === 'Application not found') {
             return res.status(404).json({ message: error.message });

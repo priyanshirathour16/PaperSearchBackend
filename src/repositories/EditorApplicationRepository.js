@@ -6,11 +6,25 @@ class EditorApplicationRepository {
     }
 
     async findAll() {
-        return await EditorApplication.findAll();
+        const { Journal } = require('../models');
+        return await EditorApplication.findAll({
+            include: [{
+                model: Journal,
+                as: 'journalData',
+                attributes: ['title']
+            }]
+        });
     }
 
     async findById(id) {
-        return await EditorApplication.findByPk(id);
+        const { Journal } = require('../models');
+        return await EditorApplication.findByPk(id, {
+            include: [{
+                model: Journal,
+                as: 'journalData',
+                attributes: ['title']
+            }]
+        });
     }
 
     async findByEmail(email) {

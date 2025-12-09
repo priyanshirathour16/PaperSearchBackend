@@ -2,9 +2,13 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const EditorApplication = sequelize.define('EditorApplication', {
-    journal: {
-        type: DataTypes.STRING,
-        allowNull: false
+    journal_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Journals',
+            key: 'id'
+        }
     },
     title: {
         type: DataTypes.STRING
