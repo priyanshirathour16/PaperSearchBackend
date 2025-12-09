@@ -25,7 +25,9 @@ app.use('/api/authors', authorRoutes);
 app.use('/api/journals', journalRoutes);
 app.use('/api/journal-issues', journalIssueRoutes);
 app.use('/api/editor-applications', editorApplicationRoutes);
+app.use('/api/editor-applications', editorApplicationRoutes);
 app.use('/api/journal-categories', journalCategoryRoutes);
+app.use('/api/journal-impact-factors', require('./routes/journalImpactFactorRoutes'));
 
 
 // Global Error Handler
