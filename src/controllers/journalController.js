@@ -124,3 +124,19 @@ exports.deleteEditor = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getJournalByCategoryRoute = async (req, res, next) => {
+    try {
+        const { route } = req.body;
+        if (!route) {
+            return res.status(400).json({ message: 'Category route is required' });
+        }
+        const journalDetails = await journalService.getJournalByCategoryRoute(route);
+        res.json(journalDetails);
+    } catch (error) {
+        if (error.message === 'Category not found' || error.message === 'Journal not found in this category') {
+            return res.status(404).json({ message: error.message });
+        }
+        next(error);
+    }
+};

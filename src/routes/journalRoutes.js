@@ -8,6 +8,9 @@ const upload = require('../middleware/uploadMiddleware');
 
 const parseJsonFields = require('../middleware/parseJsonMiddleware');
 
+// Public routes
+router.post('/details-by-category', journalController.getJournalByCategoryRoute);
+
 router.use(authMiddleware);
 router.use(roleMiddleware);
 

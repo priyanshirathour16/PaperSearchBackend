@@ -98,6 +98,30 @@ class JournalRepository {
             where: { id: editorId }
         });
     }
+
+    async findLatestByCategoryId(categoryId) {
+        const { JournalIssue } = require('../models');
+        return await Journal.findOne({
+            where: { category_id: categoryId },
+            include: [
+                {
+                    model: EditorialBoard,
+                    as: 'editorial_board',
+                    where: { status: 1 },
+                    required: false
+                },
+                {
+                    model: JournalCategory,
+                    as: 'category'
+                },
+                {
+                    model: JournalIssue,
+                    as: 'issues'
+                }
+            ],
+            order: [['createdAt', 'DESC']]
+        });
+    }
 }
 
 module.exports = new JournalRepository();

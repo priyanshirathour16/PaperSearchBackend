@@ -1,4 +1,5 @@
 const journalRepository = require('../repositories/JournalRepository');
+const journalCategoryRepository = require('../repositories/JournalCategoryRepository');
 
 class JournalService {
     async createJournal(data) {
@@ -37,6 +38,82 @@ class JournalService {
 
     async deleteEditor(editorId) {
         return await journalRepository.deleteEditor(editorId);
+    }
+
+    async getJournalByCategoryRoute(route) {
+        console.log("route", route);
+        const category = await journalCategoryRepository.findByRoute(route);
+        if (!category) {
+            throw new Error('Category not found');
+        }
+
+        const journal = await journalRepository.findLatestByCategoryId(category.id);
+        if (!journal) {
+            throw new Error('Journal not found in this category');
+        }
+
+        const editorialBoard = {
+            chiefEditor: null,
+            members: []
+        };
+
+        if (journal.editorial_board) {
+            journal.editorial_board.forEach(editor => {
+                const mappedEditor = {
+                    title: "Dr.",
+                    name: editor.name,
+                    affiliation: editor.department || "",
+                    profileLink: editor.profile_link || "#"
+                };
+
+                if (editor.position === 'Editor in Chief' && !editorialBoard.chiefEditor) {
+                    editorialBoard.chiefEditor = mappedEditor;
+                } else {
+                    editorialBoard.members.push(mappedEditor);
+                }
+            });
+        }
+
+        const volumes = new Set(journal.issues ? journal.issues.map(i => i.volume) : []).size;
+        const issuesCount = journal.issues ? journal.issues.length : 0;
+
+        return {
+            title: journal.title,
+            coverImage: journal.image || null,
+            stats: {
+                volumes: volumes || 12,
+                issues: issuesCount || 53,
+                articles: (issuesCount * 5) || 294,
+                yearRange: `${journal.start_year || 2011} to ${journal.end_year || 'Present'}`
+            },
+            issn: {
+                print: journal.print_issn || null,
+                online: journal.e_issn || null
+            },
+            impactFactors: [
+                { year: 2020, score: "4.87045" },
+                { year: 2019, score: "4.285" },
+                { year: 2017, score: "3.55" },
+                { year: 2015, score: "2.059" },
+                { year: 2014, score: "2.049" },
+                { year: 2013, score: "1.789" },
+                { year: 2012, score: "0.803" },
+                { year: 2011, score: "0.525" }
+            ],
+            about: [
+                journal.mission || "Mission statement...",
+                journal.aims_scope || "Aims and scope..."
+            ],
+            keyAudiences: [
+                "Retail managers",
+                "Suppliers and contractors",
+                "Consultants",
+                "Researchers and students",
+                "Libraries"
+            ],
+            areasCovered: journal.areas_covered || ["Marketing", "Management"],
+            editorialBoard: editorialBoard
+        };
     }
 }
 
