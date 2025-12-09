@@ -12,7 +12,8 @@ class EditorApplicationRepository {
                 model: Journal,
                 as: 'journalData',
                 attributes: ['title']
-            }]
+            }],
+            order: [['updatedAt', 'DESC']]
         });
     }
 

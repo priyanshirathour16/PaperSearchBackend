@@ -10,7 +10,10 @@ class JournalCategoryRepository {
     }
 
     async findAll(filter = {}) {
-        return await JournalCategory.findAll({ where: filter });
+        return await JournalCategory.findAll({
+            where: filter,
+            order: [['updatedAt', 'DESC']]
+        });
     }
 
     async findById(id) {
