@@ -1,4 +1,4 @@
-const { Journal, EditorialBoard, sequelize } = require('../models');
+const { Journal, EditorialBoard, JournalCategory, sequelize } = require('../models');
 
 class JournalRepository {
     async create(journalData, editorialBoardData) {
@@ -27,24 +27,36 @@ class JournalRepository {
 
     async findAll() {
         return await Journal.findAll({
-            include: [{
-                model: EditorialBoard,
-                as: 'editorial_board',
-                where: { status: 1 },
-                required: false // Allow journals without editors
-            }],
+            include: [
+                {
+                    model: EditorialBoard,
+                    as: 'editorial_board',
+                    where: { status: 1 },
+                    required: false
+                },
+                {
+                    model: JournalCategory,
+                    as: 'category'
+                }
+            ],
             order: [['createdAt', 'DESC']],
         });
     }
 
     async findById(id) {
         return await Journal.findByPk(id, {
-            include: [{
-                model: EditorialBoard,
-                as: 'editorial_board',
-                where: { status: 1 },
-                required: false
-            }],
+            include: [
+                {
+                    model: EditorialBoard,
+                    as: 'editorial_board',
+                    where: { status: 1 },
+                    required: false
+                },
+                {
+                    model: JournalCategory,
+                    as: 'category'
+                }
+            ],
         });
     }
 

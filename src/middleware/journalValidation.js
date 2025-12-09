@@ -2,6 +2,7 @@ const { body } = require('express-validator');
 
 exports.createJournalValidation = [
     body('title').notEmpty().withMessage('Journal title is required'),
+    body('category_id').notEmpty().withMessage('Category ID is required').isInt().withMessage('Category ID must be an integer'),
     body('print_issn').optional(),
     body('e_issn').optional(),
     body('frequency').optional().isIn(['Annual', 'Bi-annual', 'Tri-annual', 'Quarterly', 'Monthly', 'Bi-monthly']).withMessage('Invalid frequency'),
@@ -15,6 +16,7 @@ exports.createJournalValidation = [
 
 exports.updateJournalValidation = [
     body('title').optional().notEmpty().withMessage('Journal title cannot be empty'),
+    body('category_id').optional().isInt().withMessage('Category ID must be an integer'),
     body('frequency').optional().isIn(['Annual', 'Bi-annual', 'Tri-annual', 'Quarterly', 'Monthly', 'Bi-monthly']).withMessage('Invalid frequency'),
     body('start_year').optional().isInt().withMessage('Start year must be an integer'),
     body('end_year').optional().isInt().withMessage('End year must be an integer'),

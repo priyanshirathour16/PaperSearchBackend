@@ -50,6 +50,10 @@ const Journal = sequelize.define('Journal', {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    category_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
 });
 
 module.exports = Journal;

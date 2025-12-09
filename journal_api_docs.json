@@ -9,6 +9,7 @@
             },
             "body": {
                 "title": "Journal of Example Sciences",
+                "category_id": 1,
                 "print_issn": "1234-5678",
                 "e_issn": "8765-4321",
                 "frequency": "Monthly",
@@ -41,6 +42,7 @@
             "response": {
                 "id": 1,
                 "title": "Journal of Example Sciences",
+                "category_id": 1,
                 "createdAt": "2023-10-27T10:00:00.000Z",
                 "updatedAt": "2023-10-27T10:00:00.000Z"
             }
@@ -58,6 +60,11 @@
                     "title": "Journal of Example Sciences",
                     "print_issn": "1234-5678",
                     "frequency": "Monthly",
+                    "category": {
+                        "id": 1,
+                        "title": "Journal Category Title",
+                        "route": "journal-category-title"
+                    },
                     "editorial_board": [
                         {
                             "name": "Dr. John Doe",
@@ -78,6 +85,11 @@
                 "id": 1,
                 "title": "Journal of Example Sciences",
                 "print_issn": "1234-5678",
+                "category": {
+                    "id": 1,
+                    "title": "Journal Category Title",
+                    "route": "journal-category-title"
+                },
                 "editorial_board": [
                     {
                         "id": 1,
@@ -98,6 +110,7 @@
             },
             "body": {
                 "title": "Updated Journal Title",
+                "category_id": 2,
                 "frequency": "Quarterly",
                 "editorial_board": [
                     {
@@ -110,6 +123,7 @@
             "response": {
                 "id": 1,
                 "title": "Updated Journal Title",
+                "category_id": 2,
                 "frequency": "Quarterly"
             }
         },
