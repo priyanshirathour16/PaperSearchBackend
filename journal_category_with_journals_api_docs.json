@@ -1,0 +1,31 @@
+{
+    "endpoint": {
+        "method": "GET",
+        "url": "/api/journal-categories/with-journals",
+        "description": "Get all active journal categories with their associated journals (ID, Title, Print ISSN, E-ISSN).",
+        "response": [
+            {
+                "id": 1,
+                "title": "Computer Science",
+                "route": "computer-science",
+                "status": true,
+                "createdAt": "2024-01-01T00:00:00.000Z",
+                "updatedAt": "2024-01-01T00:00:00.000Z",
+                "journals": [
+                    {
+                        "id": 1,
+                        "title": "Journal of AI",
+                        "print_issn": "1234-5678",
+                        "e_issn": "8765-4321"
+                    },
+                    {
+                        "id": 2,
+                        "title": "Journal of Data Science",
+                        "print_issn": "1111-2222",
+                        "e_issn": "3333-4444"
+                    }
+                ]
+            }
+        ]
+    }
+}

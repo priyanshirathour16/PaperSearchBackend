@@ -38,6 +38,15 @@ class JournalCategoryController {
             next(error);
         }
     }
+
+    async getCategoriesWithJournals(req, res, next) {
+        try {
+            const categories = await journalCategoryService.getCategoriesWithJournals();
+            res.status(200).json(categories);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new JournalCategoryController();
