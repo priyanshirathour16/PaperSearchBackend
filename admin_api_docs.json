@@ -109,8 +109,33 @@
                 "cvFile": "uploads/file-123.pdf",
                 "status": "pending",
                 "createdAt": "2024-01-01T00:00:00.000Z",
-                "updatedAt": "2024-01-01T00:00:00.000Z"
+                "updatedAt": "2024-01-01T00:00:00.000Z",
+                "response": {
+                    "id": 1,
+                    "journal": "Journal of Computing",
+                    "title": "Mr",
+                    "firstName": "Jane",
+                    "lastName": "Smith",
+                    "email": "jane@example.com",
+                    "qualification": "MSc",
+                    "specialization": "AI",
+                    "institute": "Stanford",
+                    "cvFile": "uploads/file-123.pdf",
+                    "status": "pending",
+                    "createdAt": "2024-01-01T00:00:00.000Z",
+                    "updatedAt": "2024-01-01T00:00:00.000Z"
+                }
+            },
+            "delete": {
+                "method": "DELETE",
+                "url": "http://localhost:5000/api/editor-applications/1",
+                "description": "Soft delete an editor application.",
+                "headers": {
+                    "Authorization": "Bearer <admin_jwt_token>"
+                },
+                "response": {
+                    "message": "Application deleted successfully"
+                }
             }
         }
     }
-}

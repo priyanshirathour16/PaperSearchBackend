@@ -1,32 +1,28 @@
-const bcrypt = require('bcryptjs');
 const editorApplicationRepository = require('../repositories/EditorApplicationRepository');
+const bcrypt = require('bcryptjs');
 
 class EditorApplicationService {
     async submitApplication(data) {
-        const { email, password, confirmPassword } = data;
-
-        if (password !== confirmPassword) {
-            throw new Error('Passwords do not match');
-        }
-
-        const existingApplication = await editorApplicationRepository.findByEmail(email);
+        // Check if email already exists
+        const existingApplication = await editorApplicationRepository.findByEmail(data.email);
         if (existingApplication) {
             throw new Error('Application with this email already exists');
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        if (data.password !== data.confirmPassword) {
+            throw new Error('Passwords do not match');
+        }
 
-        const newApplicationData = {
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(data.password, salt);
+
+        const applicationData = {
             ...data,
             password: hashedPassword
         };
 
-        // Remove confirmation fields
-        delete newApplicationData.confirmPassword;
-        delete newApplicationData.confirmEmail;
-        delete newApplicationData.captchaInput;
-
-        return await editorApplicationRepository.create(newApplicationData);
+        return await editorApplicationRepository.create(applicationData);
     }
 
     async getAllApplications() {
@@ -39,6 +35,14 @@ class EditorApplicationService {
             throw new Error('Application not found');
         }
         return application;
+    }
+
+    async deleteApplication(id) {
+        const deleted = await editorApplicationRepository.delete(id);
+        if (!deleted) {
+            throw new Error('Application not found');
+        }
+        return { message: 'Application deleted successfully' };
     }
 }
 

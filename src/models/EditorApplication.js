@@ -51,6 +51,7 @@ const EditorApplication = sequelize.define('EditorApplication', {
     }
 }, {
     timestamps: true,
+    paranoid: true,
     tableName: 'editor_applications'
 });
 

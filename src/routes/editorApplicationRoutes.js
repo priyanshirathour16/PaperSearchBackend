@@ -34,5 +34,6 @@ router.post(
 // Admin only routes
 router.get('/', authMiddleware, roleMiddleware, editorApplicationController.getAllApplications);
 router.get('/:id', authMiddleware, roleMiddleware, editorApplicationController.getApplicationById);
+router.delete('/:id', authMiddleware, roleMiddleware, editorApplicationController.deleteApplication);
 
 module.exports = router;

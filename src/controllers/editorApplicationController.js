@@ -55,3 +55,15 @@ exports.getApplicationById = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.deleteApplication = async (req, res, next) => {
+    try {
+        await editorApplicationService.deleteApplication(req.params.id);
+        res.json({ message: 'Application deleted successfully' });
+    } catch (error) {
+        if (error.message === 'Application not found') {
+            return res.status(404).json({ message: error.message });
+        }
+        next(error);
+    }
+};

@@ -1,24 +1,24 @@
-const { EditorApplication } = require('../models');
+const EditorApplication = require('../models/EditorApplication');
 
 class EditorApplicationRepository {
-    async findByEmail(email) {
-        return await EditorApplication.findOne({ where: { email } });
-    }
-
     async create(data) {
         return await EditorApplication.create(data);
     }
 
     async findAll() {
-        return await EditorApplication.findAll({
-            attributes: { exclude: ['password'] }
-        });
+        return await EditorApplication.findAll();
     }
 
     async findById(id) {
-        return await EditorApplication.findByPk(id, {
-            attributes: { exclude: ['password'] }
-        });
+        return await EditorApplication.findByPk(id);
+    }
+
+    async findByEmail(email) {
+        return await EditorApplication.findOne({ where: { email } });
+    }
+
+    async delete(id) {
+        return await EditorApplication.destroy({ where: { id } });
     }
 }
 
