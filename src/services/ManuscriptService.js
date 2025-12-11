@@ -88,6 +88,14 @@ class ManuscriptService {
 
         return result;
     }
+
+    async getAllManuscripts() {
+        return await manuscriptRepository.findAllBasic();
+    }
+
+    async getManuscriptByPublicId(id) {
+        return await manuscriptRepository.findByPublicId(id);
+    }
 }
 
 module.exports = new ManuscriptService();

@@ -17,4 +17,7 @@ router.post(
     manuscriptController.submitManuscript
 );
 
+router.get('/', manuscriptController.getAllManuscripts);
+router.get('/:id', manuscriptController.getManuscriptById);
+
 module.exports = router;

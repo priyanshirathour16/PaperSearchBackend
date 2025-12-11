@@ -1,0 +1,9 @@
+--- Verifying Manuscript GET APIs ---
+Testing List API: GET /api/manuscripts
+List Status: 200
+First Manuscript Public ID: ef2f4ede-b501-49f8-bf58-efc41e8c6afa
+Has Journal Title? Yes
+Testing Detail API: GET /api/manuscripts/ef2f4ede-b501-49f8-bf58-efc41e8c6afa
+Detail Status: 200
+Has Authors? Yes: 1
+Has Journal ISSN? Yes

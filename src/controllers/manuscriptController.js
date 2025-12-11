@@ -24,3 +24,33 @@ exports.submitManuscript = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getAllManuscripts = async (req, res, next) => {
+    try {
+        const manuscripts = await manuscriptService.getAllManuscripts();
+        res.status(200).json({
+            message: 'Manuscripts fetched successfully',
+            data: manuscripts
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getManuscriptById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const manuscript = await manuscriptService.getManuscriptByPublicId(id);
+
+        if (!manuscript) {
+            return res.status(404).json({ message: 'Manuscript not found' });
+        }
+
+        res.status(200).json({
+            message: 'Manuscript details fetched successfully',
+            data: manuscript
+        });
+    } catch (error) {
+        next(error);
+    }
+};

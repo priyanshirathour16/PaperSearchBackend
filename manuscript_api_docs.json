@@ -1,0 +1,118 @@
+{
+    "endpoints": [
+        {
+            "method": "POST",
+            "path": "/api/manuscripts",
+            "summary": "Submit a new Manuscript",
+            "contentType": "multipart/form-data",
+            "body": {
+                "journal": "1 (Integer, Required)",
+                "name": "John Doe (String, Required)",
+                "email": "john@example.com (String, Required)",
+                "phone": "Optional",
+                "paperTitle": "Required",
+                "wordCount": "Optional",
+                "manuscriptFile": "File (Required)",
+                "signature": "File (Image, Optional)",
+                "authors": "JSON String Array: [{\"firstName\":\"A\",\"lastName\":\"B\",\"email\":\"...\"}]"
+            }
+        },
+        {
+            "method": "GET",
+            "path": "/api/manuscripts",
+            "summary": "Get all manuscripts (Basic Info)",
+            "response": {
+                "message": "Manuscripts fetched successfully",
+                "data": [
+                    {
+                        "id": 1,
+                        "manuscript_id": "4c0a0b67-0c66-490c-899a-d397d1230152",
+                        "submitter_name": "John Doe",
+                        "submitter_email": "john@example.com",
+                        "createdAt": "2025-12-10T10:00:00.000Z",
+                        "status": "Submitted",
+                        "journal": {
+                            "title": "International Journal of Science"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "method": "GET",
+            "path": "/api/manuscripts/:id",
+            "summary": "Get manuscript details by Public ID (UUID)",
+            "response": {
+                "message": "Manuscript details fetched successfully",
+                "data": {
+                    "id": 1,
+                    "manuscript_id": "4c0a0b67-0c66-490c-899a-d397d1230152",
+                    "journal_id": 19,
+                    "submitter_name": "John Doe",
+                    "submitter_email": "john@example.com",
+                    "submitter_phone": "123-456-7890",
+                    "paper_title": "The Impact of AI on Modern Coding",
+                    "word_count": 5000,
+                    "page_count": 25,
+                    "table_count": 3,
+                    "figure_count": 5,
+                    "reviewer_first_name": "Jane",
+                    "reviewer_last_name": "Smith",
+                    "reviewer_email": "jane.smith@university.edu",
+                    "reviewer_phone": "987-654-3210",
+                    "reviewer_institution": "Tech University",
+                    "keywords": "AI, Coding, LLM, Agents",
+                    "abstract": "This study explores the efficiency of autonomous agents in software development...",
+                    "manuscript_file_path": "uploads/manuscripts/1765308410927-631093674.pdf",
+                    "signature_file_path": "uploads/signatures/1765308410930-331788620.png",
+                    "status": "Submitted",
+                    "createdAt": "2025-12-10T10:00:00.000Z",
+                    "updatedAt": "2025-12-10T10:00:00.000Z",
+                    "deletedAt": null,
+                    "journal": {
+                        "title": "International Journal of Science",
+                        "print_issn": "1234-5678"
+                    },
+                    "authors": [
+                        {
+                            "id": 1,
+                            "manuscript_id": 1,
+                            "first_name": "Alice",
+                            "last_name": "Johnson",
+                            "email": "alice@example.com",
+                            "confirm_email": "alice@example.com",
+                            "phone": "555-0101",
+                            "country": "USA",
+                            "institution": "MIT",
+                            "department": "Computer Science",
+                            "state": "MA",
+                            "city": "Cambridge",
+                            "address": "77 Massachusetts Ave",
+                            "is_corresponding_author": true,
+                            "createdAt": "2025-12-10T10:00:00.000Z",
+                            "updatedAt": "2025-12-10T10:00:00.000Z"
+                        },
+                        {
+                            "id": 2,
+                            "manuscript_id": 1,
+                            "first_name": "Bob",
+                            "last_name": "Williams",
+                            "email": "bob@example.com",
+                            "confirm_email": "bob@example.com",
+                            "phone": "555-0102",
+                            "country": "UK",
+                            "institution": "Oxford",
+                            "department": "Engineering",
+                            "state": "Oxfordshire",
+                            "city": "Oxford",
+                            "address": "Wellington Square",
+                            "is_corresponding_author": false,
+                            "createdAt": "2025-12-10T10:00:00.000Z",
+                            "updatedAt": "2025-12-10T10:00:00.000Z"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
