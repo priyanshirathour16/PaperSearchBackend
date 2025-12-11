@@ -36,20 +36,20 @@ app.use(errorHandler);
 
 // ---------------------  local database connection ---------------------
 
-// db.sequelize.sync().then(() => {
-//     console.log('Database connected and synced (SQLite)');
-//     app.listen(PORT, () => {
-//         console.log(`Server is running on port ${PORT}`);
-//     });
-// }).catch((err) => {
-//     console.error('Unable to connect to the database:', err);
-// });
+db.sequelize.sync().then(() => {
+    console.log('Database connected and synced (SQLite)');
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}).catch((err) => {
+    console.error('Unable to connect to the database:', err);
+});
 
 
 // ---------------------  production database connection ---------------------
 
-db.sequelize.sync()
-    .then(() => console.log("Database connected"))
-    .catch((err) => console.error("DB connection error:", err));
+// db.sequelize.sync()
+//     .then(() => console.log("Database connected"))
+//     .catch((err) => console.error("DB connection error:", err));
 
-module.exports = app;
+// module.exports = app;
