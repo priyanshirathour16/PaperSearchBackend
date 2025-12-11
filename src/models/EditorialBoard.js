@@ -19,7 +19,8 @@ const EditorialBoard = sequelize.define('EditorialBoard', {
         allowNull: true,
     },
     status: {
-        type: DataTypes.TINYINT,
+        type: DataTypes.SMALLINT, // server
+        // type: DataTypes.TINYINT, // local
         defaultValue: 1,
     },
 });

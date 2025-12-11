@@ -11,7 +11,8 @@ const ManuscriptAuthor = sequelize.define('ManuscriptAuthor', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Manuscripts',
+            model: 'manuscripts',  // server
+            // model: 'Manuscripts',  // local
             key: 'id'
         },
         onDelete: 'CASCADE'
