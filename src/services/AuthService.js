@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const adminRepository = require('../repositories/AdminRepository');
 const authorRepository = require('../repositories/AuthorRepository');
 
+const editorApplicationRepository = require('../repositories/EditorApplicationRepository');
+
 class AuthService {
     async login(email, password) {
         console.log(email, password);
@@ -38,6 +40,11 @@ class AuthService {
         const existingAuthor = await authorRepository.findByEmail(email);
         if (existingAuthor) {
             throw new Error('Author already exists with this email');
+        }
+
+        const existingEditor = await editorApplicationRepository.findByEmail(email);
+        if (existingEditor) {
+            throw new Error('Email is already registered as an editor');
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);

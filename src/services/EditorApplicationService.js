@@ -1,4 +1,5 @@
 const editorApplicationRepository = require('../repositories/EditorApplicationRepository');
+const authorRepository = require('../repositories/AuthorRepository');
 const bcrypt = require('bcryptjs');
 
 class EditorApplicationService {
@@ -8,10 +9,16 @@ class EditorApplicationService {
             delete data.journal;
         }
 
-        // Check if email already exists
+        // Check if email already exists in EditorApplication
         const existingApplication = await editorApplicationRepository.findByEmail(data.email);
         if (existingApplication) {
             throw new Error('Application with this email already exists');
+        }
+
+        // Check if email already exists in Author
+        const existingAuthor = await authorRepository.findByEmail(data.email);
+        if (existingAuthor) {
+            throw new Error('Email is already registered as an author');
         }
 
         if (data.password !== data.confirmPassword) {
