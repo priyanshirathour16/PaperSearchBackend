@@ -1,0 +1,59 @@
+{
+    "endpoints": [
+        {
+            "method": "POST",
+            "path": "/api/contact-us",
+            "summary": "Submit a Contact Us Inquiry",
+            "contentType": "application/json",
+            "body": {
+                "fullName": "John Doe (String, Required)",
+                "email": "john@example.com (String, Required)",
+                "phone": "123-456-7890 (String, Required)",
+                "city": "New York (String, Required)",
+                "department": "Editorial (String, Optional)",
+                "message": "I have a question... (String, Required)"
+            },
+            "response": {
+                "message": "Contact inquiry submitted successfully",
+                "data": {
+                    "id": 1,
+                    "fullName": "John Doe",
+                    "email": "john@example.com",
+                    "phone": "123-456-7890",
+                    "city": "New York",
+                    "department": "Editorial",
+                    "message": "I have a question...",
+                    "updatedAt": "2025-12-12T10:00:00.000Z",
+                    "createdAt": "2025-12-12T10:00:00.000Z"
+                }
+            }
+        },
+        {
+            "method": "GET",
+            "path": "/api/contact-us",
+            "summary": "Get all Contact Inquiries",
+            "response": [
+                {
+                    "id": 1,
+                    "fullName": "John Doe",
+                    "email": "john@example.com",
+                    "phone": "123-456-7890",
+                    "city": "New York",
+                    "department": "Editorial",
+                    "message": "I have a question...",
+                    "createdAt": "2025-12-12T10:00:00.000Z",
+                    "updatedAt": "2025-12-12T10:00:00.000Z",
+                    "deletedAt": null
+                }
+            ]
+        },
+        {
+            "method": "DELETE",
+            "path": "/api/contact-us/:id",
+            "summary": "Soft delete a Contact Inquiry",
+            "response": {
+                "message": "Contact inquiry deleted successfully"
+            }
+        }
+    ]
+}

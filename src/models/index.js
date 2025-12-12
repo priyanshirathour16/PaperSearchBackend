@@ -9,6 +9,7 @@ const JournalCategory = require('./JournalCategory');
 const JournalImpactFactor = require('./JournalImpactFactor');
 const Manuscript = require('./Manuscript');
 const ManuscriptAuthor = require('./ManuscriptAuthor');
+const ContactUs = require('./ContactUs');
 
 // Associations
 Journal.hasMany(EditorialBoard, { foreignKey: 'journal_id', as: 'editorial_board' });
@@ -41,7 +42,8 @@ const db = {
     JournalCategory,
     JournalImpactFactor,
     Manuscript,
-    ManuscriptAuthor
+    ManuscriptAuthor,
+    ContactUs
 };
 
 module.exports = db;
