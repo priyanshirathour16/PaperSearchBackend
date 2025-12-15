@@ -36,4 +36,24 @@ router.post(
     authController.register
 );
 
+router.post(
+    '/send-otp',
+    [
+        body('name').notEmpty().withMessage('Name is required'),
+        body('email').isEmail().withMessage('Valid email is required').trim().toLowerCase(),
+        body('phone').notEmpty().withMessage('Phone number is required')
+    ],
+    authController.sendOtp
+);
+
+router.post(
+    '/verify-otp-login',
+    [
+        body('name').notEmpty().withMessage('Name is required'),
+        body('email').isEmail().withMessage('Valid email is required').trim().toLowerCase(),
+        body('phone').notEmpty().withMessage('Phone number is required')
+    ],
+    authController.verifyOtpLogin
+);
+
 module.exports = router;

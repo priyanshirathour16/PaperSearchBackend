@@ -1,0 +1,63 @@
+{
+    "endpoints": [
+        {
+            "method": "POST",
+            "path": "/api/auth/send-otp",
+            "summary": "Send OTP to user's email",
+            "body": {
+                "name": "John Doe (String, Required)",
+                "email": "john@example.com (String, Required)",
+                "phone": "+1234567890 (String, Required)"
+            },
+            "responses": {
+                "200": {
+                    "description": "OTP sent successfully",
+                    "body": {
+                        "otp": "123456 (String, Temporary for Dev)",
+                        "message": "OTP sent successfully"
+                    }
+                },
+                "400": {
+                    "description": "Validation error"
+                },
+                "500": {
+                    "description": "Server error (Email failed)"
+                }
+            }
+        },
+        {
+            "method": "POST",
+            "path": "/api/auth/verify-otp-login",
+            "summary": "Login or Register user after OTP verification",
+            "body": {
+                "name": "John Doe (String, Required)",
+                "email": "john@example.com (String, Required)",
+                "phone": "+1234567890 (String, Required)"
+            },
+            "responses": {
+                "200": {
+                    "description": "Login successful",
+                    "body": {
+                        "token": "JWT_TOKEN",
+                        "role": "author",
+                        "user": {
+                            "id": 1,
+                            "firstName": "John",
+                            "lastName": "Doe",
+                            "email": "john@example.com",
+                            "role": "author"
+                        },
+                        "isNewUser": "Boolean (true if registered, false if logged in)",
+                        "message": "Login successful"
+                    }
+                },
+                "400": {
+                    "description": "Validation error"
+                },
+                "500": {
+                    "description": "Server error"
+                }
+            }
+        }
+    ]
+}

@@ -42,3 +42,37 @@ exports.register = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.sendOtp = async (req, res, next) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { name, email, phone } = req.body;
+        const result = await authService.sendOtp(name, email, phone);
+
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.verifyOtpLogin = async (req, res, next) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { name, email, phone } = req.body;
+        // Verify OTP logic presumed done on frontend as per request flow
+
+        const result = await authService.verifyOtpLogin(name, email, phone);
+
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+};

@@ -5,7 +5,22 @@ const authorRepository = require('../repositories/AuthorRepository');
 
 const editorApplicationRepository = require('../repositories/EditorApplicationRepository');
 
+const nodemailer = require('nodemailer');
+
 class AuthService {
+    constructor() {
+        this.transporter = nodemailer.createTransport({
+            service: process.env.EMAIL_SERVICE || 'gmail', // Default to gmail or use env
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+    }
+
+    generateOtp() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
     async login(email, password) {
         console.log(email, password);
         const admin = await adminRepository.findByEmail(email);
@@ -66,6 +81,80 @@ class AuthService {
         // Return without password
         const { password: _, ...authorResponse } = newAuthor.toJSON();
         return authorResponse;
+    }
+
+    async sendOtp(name, email, phone) {
+        const otp = this.generateOtp();
+
+        // In a real app, store OTP in DB/Redis with expiry. 
+        // For this implementation, we return it in response as requested.
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Your Login OTP',
+            text: `Hello ${name},\n\nYour OTP for login is: ${otp}\n\nThis OTP is valid for 10 minutes.\n\nRegards,\nElk Journals Team`
+        };
+
+        try {
+            if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+                await this.transporter.sendMail(mailOptions);
+                console.log(`OTP sent to ${email}`);
+            } else {
+                console.log(`Mocking Email Send. OTP for ${email} is ${otp}`);
+            }
+        } catch (error) {
+            console.error('Error sending email:', error);
+            throw new Error('Failed to send OTP email');
+        }
+
+        return { otp, message: 'OTP sent successfully' };
+    }
+
+    async verifyOtpLogin(name, email, phone) {
+        let author = await authorRepository.findByEmail(email);
+        let role = 'author';
+        let token;
+        let isNewUser = false;
+
+        if (!author) {
+            // Register new author
+            const tempPassword = 'Password@123';
+            const hashedPassword = await bcrypt.hash(tempPassword, 10);
+
+            const nameParts = name.trim().split(' ');
+            const firstName = nameParts[0];
+            const lastName = nameParts.slice(1).join(' ') || '.';
+
+            const newAuthorData = {
+                firstName,
+                lastName,
+                email,
+                password: hashedPassword,
+                contactNumber: phone,
+                role: 'author'
+            };
+
+            author = await authorRepository.create(newAuthorData);
+            isNewUser = true;
+        }
+
+        token = jwt.sign(
+            { id: author.id, email: author.email, role: author.role },
+            process.env.JWT_SECRET || 'secret',
+            { expiresIn: '24h' }
+        );
+
+        const authorData = author.toJSON ? author.toJSON() : author;
+        delete authorData.password;
+
+        return {
+            token,
+            role: author.role,
+            user: authorData,
+            isNewUser,
+            message: isNewUser ? 'User registered and logged in successfully' : 'Login successful'
+        };
     }
 }
 
