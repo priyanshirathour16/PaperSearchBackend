@@ -21,10 +21,14 @@ const Manuscript = sequelize.define('Manuscript', {
             key: 'id'
         }
     },
-    // Submitter Details
-    submitter_name: { type: DataTypes.STRING, allowNull: false },
-    submitter_email: { type: DataTypes.STRING, allowNull: false },
-    submitter_phone: { type: DataTypes.STRING, allowNull: true },
+    author_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'Authors',
+            key: 'id'
+        }
+    },
 
     // Paper Details
     paper_title: { type: DataTypes.STRING, allowNull: false },

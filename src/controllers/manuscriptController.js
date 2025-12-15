@@ -18,6 +18,9 @@ exports.submitManuscript = async (req, res, next) => {
         if (error.message === 'Journal not found') {
             return res.status(404).json({ message: error.message });
         }
+        if (error.message === 'Author already exists. Please login to submit.') {
+            return res.status(409).json({ message: error.message });
+        }
         if (error.message === 'Manuscript file is required' || error.message === 'Invalid authors JSON format') {
             return res.status(400).json({ message: error.message });
         }

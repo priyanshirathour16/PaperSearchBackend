@@ -15,6 +15,17 @@
                 "manuscriptFile": "File (Required)",
                 "signature": "File (Image, Optional)",
                 "authors": "JSON String Array: [{\"firstName\":\"A\",\"lastName\":\"B\",\"email\":\"...\"}]"
+            },
+            "responses": {
+                "201": {
+                    "description": "Manuscript submitted successfully"
+                },
+                "400": {
+                    "description": "Validation error"
+                },
+                "409": {
+                    "description": "Author already exists. Please login to submit."
+                }
             }
         },
         {

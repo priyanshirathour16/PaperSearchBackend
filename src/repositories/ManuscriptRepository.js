@@ -1,5 +1,6 @@
 const Manuscript = require('../models/Manuscript');
 const Journal = require('../models/Journal');
+const Author = require('../models/Author'); // Added Author import
 const ManuscriptAuthor = require('../models/ManuscriptAuthor');
 
 class ManuscriptRepository {
@@ -8,19 +9,36 @@ class ManuscriptRepository {
     }
 
     async findAllBasic() {
-        return await Manuscript.findAll({
-            attributes: ['id', 'manuscript_id', 'submitter_name', 'submitter_email', 'createdAt', 'status'],
-            include: [{
-                model: Journal,
-                as: 'journal',
-                attributes: ['title']
-            }],
+        const manuscripts = await Manuscript.findAll({
+            attributes: ['id', 'manuscript_id', 'createdAt', 'status'], // Removed redundant fields
+            include: [
+                {
+                    model: Journal,
+                    as: 'journal',
+                    attributes: ['title']
+                },
+                {
+                    model: Author,
+                    as: 'author', // Ensure association exists in models!
+                    attributes: ['firstName', 'lastName', 'email']
+                }
+            ],
             order: [['updatedAt', 'DESC']]
+        });
+
+        // Map to flat structure for API compatibility
+        return manuscripts.map(m => {
+            const plain = m.get({ plain: true });
+            return {
+                ...plain,
+                submitter_name: plain.author ? `${plain.author.firstName} ${plain.author.lastName}`.trim() : 'Unknown',
+                submitter_email: plain.author ? plain.author.email : 'Unknown'
+            };
         });
     }
 
     async findByPublicId(manuscript_id) {
-        return await Manuscript.findOne({
+        const manuscript = await Manuscript.findOne({
             where: { manuscript_id },
             include: [
                 {
@@ -29,11 +47,27 @@ class ManuscriptRepository {
                     attributes: ['title', 'print_issn']
                 },
                 {
+                    model: Author,
+                    as: 'author',
+                    attributes: ['firstName', 'lastName', 'email', 'contactNumber']
+                },
+                {
                     model: ManuscriptAuthor,
                     as: 'authors'
                 }
             ]
         });
+
+        if (!manuscript) return null;
+
+        // Map for API compatibility
+        const plain = manuscript.get({ plain: true });
+        return {
+            ...plain,
+            submitter_name: plain.author ? `${plain.author.firstName} ${plain.author.lastName}`.trim() : 'Unknown',
+            submitter_email: plain.author ? plain.author.email : 'Unknown',
+            submitter_phone: plain.author ? plain.author.contactNumber : null
+        };
     }
 
     async findAll() {

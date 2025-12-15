@@ -29,6 +29,9 @@ Manuscript.belongsTo(Journal, { foreignKey: 'journal_id', as: 'journal' });
 Manuscript.hasMany(ManuscriptAuthor, { foreignKey: 'manuscript_id', as: 'authors', onDelete: 'CASCADE' });
 ManuscriptAuthor.belongsTo(Manuscript, { foreignKey: 'manuscript_id', as: 'manuscript' });
 
+Author.hasMany(Manuscript, { foreignKey: 'author_id', as: 'manuscripts' });
+Manuscript.belongsTo(Author, { foreignKey: 'author_id', as: 'author' });
+
 // JournalIssue associations are defined in the JournalIssue model file
 
 const db = {

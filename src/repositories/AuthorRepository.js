@@ -5,8 +5,8 @@ class AuthorRepository {
         return await Author.findOne({ where: { email } });
     }
 
-    async create(authorData) {
-        return await Author.create(authorData);
+    async create(authorData, options) {
+        return await Author.create(authorData, options);
     }
 
     async findAll() {
