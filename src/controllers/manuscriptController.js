@@ -16,15 +16,28 @@ exports.submitManuscript = async (req, res, next) => {
         });
     } catch (error) {
         if (error.message === 'Journal not found') {
-            return res.status(404).json({ message: error.message });
+            return res.status(404).json({ error: error.message });
         }
-        if (error.message === 'Author already exists. Please login to submit.') {
-            return res.status(409).json({ message: error.message });
+        if (error.message === 'Author account not found. Please verify your email with OTP first.') {
+            return res.status(400).json({ error: error.message });
         }
         if (error.message === 'Manuscript file is required' || error.message === 'Invalid authors JSON format') {
-            return res.status(400).json({ message: error.message });
+            return res.status(400).json({ error: error.message });
+        }
+        if (error.message && error.message.includes('Abstract exceeds maximum word limit')) {
+            return res.status(400).json({ error: error.message });
         }
         next(error);
+    }
+};
+
+exports.getManuscriptsByAuthor = async (req, res) => {
+    try {
+        const { authorId } = req.params;
+        const manuscripts = await manuscriptService.getManuscriptsByAuthor(authorId);
+        res.status(200).json(manuscripts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
 

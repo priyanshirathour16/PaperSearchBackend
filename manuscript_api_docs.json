@@ -25,6 +25,9 @@
                 },
                 "409": {
                     "description": "Author already exists. Please login to submit."
+                },
+                "500": {
+                    "description": "Server error"
                 }
             }
         },
@@ -47,6 +50,69 @@
                         }
                     }
                 ]
+            }
+        },
+        {
+            "method": "GET",
+            "path": "/api/manuscripts/author/:authorId",
+            "summary": "Get all manuscripts by author ID",
+            "responses": {
+                "200": {
+                    "description": "List of manuscripts",
+                    "body": [
+                        {
+                            "id": 11,
+                            "manuscript_id": "cb148cef-259f-4f3d-8ae2-5afa627cc40a",
+                            "journal_id": 14,
+                            "author_id": 22,
+                            "paper_title": "ksahfkjhsdfkj",
+                            "word_count": 657567,
+                            "page_count": 5,
+                            "table_count": 66,
+                            "figure_count": 54,
+                            "reviewer_first_name": "avhsxnabbvcac",
+                            "reviewer_last_name": "hfhfhgfh",
+                            "reviewer_email": "bvnvn@fcghfhg.ghfhgfh",
+                            "reviewer_phone": "565656565",
+                            "reviewer_institution": "nhvhghjgjhgjhfvjh",
+                            "keywords": "hfhjgjhgjgjg",
+                            "abstract": "jhgjhgjgjj",
+                            "manuscript_file_path": "uploads\\manuscripts\\1765823214352-840692807.pdf",
+                            "signature_file_path": "uploads\\signatures\\1765823214353-285928076.png",
+                            "status": "Submitted",
+                            "createdAt": "2025-12-15T18:26:54.000Z",
+                            "updatedAt": "2025-12-15T18:26:54.000Z",
+                            "deletedAt": null,
+                            "journal": {
+                                "title": "Journal In Cat 1765274293379",
+                                "print_issn": "1111-1111"
+                            },
+                            "authors": [
+                                {
+                                    "id": 10,
+                                    "manuscript_id": 11,
+                                    "first_name": "wnwkdjkwdjkl",
+                                    "last_name": "hwdjhwgdj",
+                                    "email": "hwdjhgj@jwdjhjk.djhdj",
+                                    "confirm_email": "hwdjhgj@jwdjhjk.djhdj",
+                                    "phone": "1234567890",
+                                    "country": "India",
+                                    "institution": "jb",
+                                    "department": "5yjggsjhqgsj",
+                                    "state": "dajsfnkjsl",
+                                    "city": "hwqgjyqgj",
+                                    "address": "shvvjhsdkw",
+                                    "is_corresponding_author": true,
+                                    "createdAt": "2025-12-15T18:26:54.000Z",
+                                    "updatedAt": "2025-12-15T18:26:54.000Z"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "500": {
+                    "description": "Server error"
+                }
             }
         },
         {
@@ -100,24 +166,6 @@
                             "city": "Cambridge",
                             "address": "77 Massachusetts Ave",
                             "is_corresponding_author": true,
-                            "createdAt": "2025-12-10T10:00:00.000Z",
-                            "updatedAt": "2025-12-10T10:00:00.000Z"
-                        },
-                        {
-                            "id": 2,
-                            "manuscript_id": 1,
-                            "first_name": "Bob",
-                            "last_name": "Williams",
-                            "email": "bob@example.com",
-                            "confirm_email": "bob@example.com",
-                            "phone": "555-0102",
-                            "country": "UK",
-                            "institution": "Oxford",
-                            "department": "Engineering",
-                            "state": "Oxfordshire",
-                            "city": "Oxford",
-                            "address": "Wellington Square",
-                            "is_corresponding_author": false,
                             "createdAt": "2025-12-10T10:00:00.000Z",
                             "updatedAt": "2025-12-10T10:00:00.000Z"
                         }

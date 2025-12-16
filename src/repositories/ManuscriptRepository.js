@@ -77,6 +77,73 @@ class ManuscriptRepository {
     async findById(id) {
         return await Manuscript.findByPk(id);
     }
+    async findByAuthorId(author_id) {
+        const manuscripts = await Manuscript.findAll({
+            where: { author_id },
+            where: { author_id },
+            // attributes: removed to return all fields
+            include: [
+                {
+                    model: Journal,
+                    as: 'journal',
+                    attributes: ['title', 'print_issn']
+                },
+                {
+                    model: ManuscriptAuthor,
+                    as: 'authors'
+                }
+            ],
+            order: [['createdAt', 'DESC']]
+        });
+
+        return manuscripts;
+    }
+
+    /**
+     * Generate manuscript ID with journal initials
+     * Format: {JOURNAL_INITIALS}-{YEAR}-{SEQUENCE}
+     * Example: IJB-2025-001
+     */
+    async generateManuscriptId(journalId) {
+        const journal = await Journal.findByPk(journalId);
+        if (!journal) {
+            throw new Error('Journal not found');
+        }
+
+        // Get journal initials (first letter of each word in title)
+        const initials = journal.title
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase())
+            .join('');
+
+        // Get current year
+        const year = new Date().getFullYear();
+
+        // Find the last manuscript for this journal in this year
+        const lastManuscript = await Manuscript.findOne({
+            where: {
+                journal_id: journalId,
+                manuscript_id: {
+                    [require('sequelize').Op.like]: `${initials}-${year}-%`
+                }
+            },
+            order: [['createdAt', 'DESC']]
+        });
+
+        let sequence = 1;
+        if (lastManuscript) {
+            // Extract sequence number from last manuscript ID
+            const parts = lastManuscript.manuscript_id.split('-');
+            if (parts.length === 3) {
+                sequence = parseInt(parts[2]) + 1;
+            }
+        }
+
+        // Format sequence with leading zeros (3 digits)
+        const sequenceStr = sequence.toString().padStart(3, '0');
+
+        return `${initials}-${year}-${sequenceStr}`;
+    }
 }
 
 module.exports = new ManuscriptRepository();

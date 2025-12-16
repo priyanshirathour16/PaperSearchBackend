@@ -25,6 +25,7 @@ const ManuscriptAuthor = sequelize.define('ManuscriptAuthor', {
 
     country: { type: DataTypes.STRING, allowNull: true },
     institution: { type: DataTypes.STRING, allowNull: true },
+    designation: { type: DataTypes.STRING, allowNull: true },
     department: { type: DataTypes.STRING, allowNull: true },
     state: { type: DataTypes.STRING, allowNull: true },
     city: { type: DataTypes.STRING, allowNull: true },

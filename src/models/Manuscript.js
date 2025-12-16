@@ -32,7 +32,17 @@ const Manuscript = sequelize.define('Manuscript', {
 
     // Paper Details
     paper_title: { type: DataTypes.STRING, allowNull: false },
+    manuscript_type: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: 'Research paper, Case study, Book review, Review paper, Perspective, Report, Invited article'
+    },
     word_count: { type: DataTypes.INTEGER, allowNull: true },
+    no_of_words_text: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: 'Word count in alphabetic format, e.g., "Two thousand words only"'
+    },
     page_count: { type: DataTypes.INTEGER, allowNull: true },
     table_count: { type: DataTypes.INTEGER, allowNull: true },
     figure_count: { type: DataTypes.INTEGER, allowNull: true },
@@ -42,7 +52,14 @@ const Manuscript = sequelize.define('Manuscript', {
     reviewer_last_name: { type: DataTypes.STRING, allowNull: true },
     reviewer_email: { type: DataTypes.STRING, allowNull: true },
     reviewer_phone: { type: DataTypes.STRING, allowNull: true },
+    reviewer_country: { type: DataTypes.STRING, allowNull: true },
     reviewer_institution: { type: DataTypes.STRING, allowNull: true },
+    reviewer_designation: { type: DataTypes.STRING, allowNull: true },
+    reviewer_specialisation: { type: DataTypes.STRING, allowNull: true },
+    reviewer_department: { type: DataTypes.STRING, allowNull: true },
+    reviewer_state: { type: DataTypes.STRING, allowNull: true },
+    reviewer_city: { type: DataTypes.STRING, allowNull: true },
+    reviewer_address: { type: DataTypes.TEXT, allowNull: true },
 
     // Content
     keywords: { type: DataTypes.TEXT, allowNull: true },
@@ -50,6 +67,7 @@ const Manuscript = sequelize.define('Manuscript', {
 
     // Files
     manuscript_file_path: { type: DataTypes.STRING, allowNull: false },
+    cover_letter_path: { type: DataTypes.STRING, allowNull: true },
     signature_file_path: { type: DataTypes.STRING, allowNull: true },
 
     status: {

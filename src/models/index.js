@@ -10,6 +10,8 @@ const JournalImpactFactor = require('./JournalImpactFactor');
 const Manuscript = require('./Manuscript');
 const ManuscriptAuthor = require('./ManuscriptAuthor');
 const ContactUs = require('./ContactUs');
+const OTP = require('./OTP');
+const SubmissionChecklist = require('./SubmissionChecklist');
 
 // Associations
 Journal.hasMany(EditorialBoard, { foreignKey: 'journal_id', as: 'editorial_board' });
@@ -32,6 +34,9 @@ ManuscriptAuthor.belongsTo(Manuscript, { foreignKey: 'manuscript_id', as: 'manus
 Author.hasMany(Manuscript, { foreignKey: 'author_id', as: 'manuscripts' });
 Manuscript.belongsTo(Author, { foreignKey: 'author_id', as: 'author' });
 
+Manuscript.hasOne(SubmissionChecklist, { foreignKey: 'manuscript_id', as: 'checklist', onDelete: 'CASCADE' });
+SubmissionChecklist.belongsTo(Manuscript, { foreignKey: 'manuscript_id', as: 'manuscript' });
+
 // JournalIssue associations are defined in the JournalIssue model file
 
 const db = {
@@ -46,7 +51,9 @@ const db = {
     JournalImpactFactor,
     Manuscript,
     ManuscriptAuthor,
-    ContactUs
+    ContactUs,
+    OTP,
+    SubmissionChecklist
 };
 
 module.exports = db;

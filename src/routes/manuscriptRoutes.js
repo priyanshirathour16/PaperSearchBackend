@@ -8,16 +8,18 @@ const manuscriptUpload = require('../middleware/manuscriptUploadMiddleware');
 // However, typically manuscript submission systems allow registration/submission in one go or public access. 
 // Assuming PUBLIC for now based on context, can add authMiddleware later if needed.
 
+// Manuscript submission route
 router.post(
-    '/',
+    '/submit',
     manuscriptUpload.fields([
         { name: 'manuscriptFile', maxCount: 1 },
-        { name: 'signature', maxCount: 1 }
+        { name: 'coverLetter', maxCount: 1 }
     ]),
     manuscriptController.submitManuscript
 );
 
 router.get('/', manuscriptController.getAllManuscripts);
+router.get('/author/:authorId', manuscriptController.getManuscriptsByAuthor);
 router.get('/:id', manuscriptController.getManuscriptById);
 
 module.exports = router;
