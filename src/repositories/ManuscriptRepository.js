@@ -1,7 +1,8 @@
 const Manuscript = require('../models/Manuscript');
 const Journal = require('../models/Journal');
-const Author = require('../models/Author'); // Added Author import
+const Author = require('../models/Author');
 const ManuscriptAuthor = require('../models/ManuscriptAuthor');
+const SubmissionChecklist = require('../models/SubmissionChecklist');
 
 class ManuscriptRepository {
     async create(data, transaction) {
@@ -44,7 +45,7 @@ class ManuscriptRepository {
                 {
                     model: Journal,
                     as: 'journal',
-                    attributes: ['title', 'print_issn']
+                    attributes: ['title', 'print_issn', 'e_issn']
                 },
                 {
                     model: Author,
@@ -54,6 +55,10 @@ class ManuscriptRepository {
                 {
                     model: ManuscriptAuthor,
                     as: 'authors'
+                },
+                {
+                    model: SubmissionChecklist,
+                    as: 'checklist'
                 }
             ]
         });
