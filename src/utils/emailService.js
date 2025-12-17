@@ -3,16 +3,17 @@ const nodemailer = require('nodemailer');
 class EmailService {
     constructor() {
         // Configure transporter with Reseller Club SMTP settings
+        // Configure transporter with SMTP settings from environment variables or defaults
         this.transporter = nodemailer.createTransport({
-            host: 'smtp.mailserver.com', // Reseller Club SMTP host
-            port: 587,
-            secure: false, // Use TLS
+            host: process.env.SMTP_HOST || 'mail.elkjournals.com',
+            port: process.env.SMTP_PORT || 587,
+            secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
             auth: {
-                user: 'supportdesk@elkjournals.com',
-                pass: 'Owz(^^J)hF(!0vlX'
+                user: process.env.SMTP_USER || 'supportdesk@elkjournals.com',
+                pass: process.env.SMTP_PASS || 'Owz(^^J)hF(!0vlX'
             },
             tls: {
-                rejectUnauthorized: false
+                rejectUnauthorized: false // Allow self-signed certs if necessary
             }
         });
     }
