@@ -80,3 +80,32 @@ exports.verifyOtpLogin = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.changePassword = async (req, res, next) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { currentPassword, newPassword } = req.body;
+        // User should be attached to req by auth middleware
+        const { id, role } = req.user;
+
+        if (!id || !role) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
+        const result = await authService.changePassword(id, role, currentPassword, newPassword);
+
+        res.status(200).json(result);
+    } catch (error) {
+        if (error.message === 'Current password incorrect') {
+            return res.status(400).json({ message: error.message });
+        }
+        if (error.message === 'User not found') {
+            return res.status(404).json({ message: error.message });
+        }
+        next(error);
+    }
+};

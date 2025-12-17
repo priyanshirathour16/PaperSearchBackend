@@ -56,4 +56,16 @@ router.post(
     authController.verifyOtpLogin
 );
 
+const authMiddleware = require('../middleware/authMiddleware');
+
+router.post(
+    '/change-password',
+    authMiddleware,
+    [
+        body('currentPassword').notEmpty().withMessage('Current Password is required'),
+        body('newPassword').isLength({ min: 6 }).withMessage('New Password must be at least 6 characters long')
+    ],
+    authController.changePassword
+);
+
 module.exports = router;

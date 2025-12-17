@@ -20,6 +20,10 @@ class AuthorRepository {
             attributes: { exclude: ['password'] }
         });
     }
+
+    async findByIdWithPassword(id) {
+        return await Author.findByPk(id);
+    }
 }
 
 module.exports = new AuthorRepository();

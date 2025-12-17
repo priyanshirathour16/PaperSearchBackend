@@ -8,6 +8,10 @@ class AdminRepository {
     async create(adminData) {
         return await Admin.create(adminData);
     }
+
+    async findById(id) {
+        return await Admin.findByPk(id);
+    }
 }
 
 module.exports = new AdminRepository();

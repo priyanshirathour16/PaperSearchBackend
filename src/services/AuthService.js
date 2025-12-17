@@ -45,6 +45,7 @@ class AuthService {
                         firstName: author.firstName,
                         lastName: author.lastName,
                         email: author.email,
+                        phone: author.contactNumber || null,
                         role: 'author'
                     }
                 };
@@ -77,6 +78,7 @@ class AuthService {
                     user: {
                         id: admin.id,
                         email: admin.email,
+                        phone: null,
                         role: admin.role
                     }
                 };
@@ -193,6 +195,7 @@ class AuthService {
 
         const authorData = author.toJSON ? author.toJSON() : author;
         delete authorData.password;
+        authorData.phone = author.contactNumber || null; // Ensure phone field is present
 
         return {
             token,
@@ -201,6 +204,44 @@ class AuthService {
             isNewUser,
             message: isNewUser ? 'User registered and logged in successfully' : 'Login successful'
         };
+    }
+
+    async changePassword(userId, role, currentPassword, newPassword) {
+        let user;
+        let repository;
+
+        // Determine repository based on role
+        if (role === 'admin') {
+            repository = adminRepository;
+            user = await repository.findById(userId);
+        } else if (role === 'author') {
+            repository = authorRepository;
+            user = await repository.findByIdWithPassword(userId);
+        } else if (role === 'editor') {
+            repository = editorApplicationRepository;
+            user = await repository.findById(userId);
+        } else {
+            throw new Error('Invalid role');
+        }
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // Verify current password
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            throw new Error('Current password incorrect');
+        }
+
+        // Hash new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update password
+        user.password = hashedPassword;
+        await user.save();
+
+        return { message: 'Password changed successfully' };
     }
 }
 

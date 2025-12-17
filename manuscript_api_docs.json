@@ -206,6 +206,39 @@
                     }
                 }
             }
+        },
+        {
+            "method": "POST",
+            "path": "/api/auth/change-password",
+            "summary": "Change User Password",
+            "description": "Change the password for the logged-in user (Author, Admin, or Editor). Requires current password.",
+            "headers": {
+                "Authorization": "Bearer <token>"
+            },
+            "body": {
+                "currentPassword": "oldPassword123 (Required)",
+                "newPassword": "newPassword456 (Required - Min 6 chars)"
+            },
+            "responses": {
+                "200": {
+                    "description": "Password changed successfully",
+                    "example": {
+                        "message": "Password changed successfully"
+                    }
+                },
+                "400": {
+                    "description": "Validation error or Incorrect current password",
+                    "example": {
+                        "message": "Current password incorrect"
+                    }
+                },
+                "401": {
+                    "description": "Unauthorized (Invalid/Missing Token)"
+                },
+                "404": {
+                    "description": "User not found"
+                }
+            }
         }
     ]
 }
