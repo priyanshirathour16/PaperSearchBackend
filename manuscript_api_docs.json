@@ -172,6 +172,40 @@
                     ]
                 }
             }
+        },
+        {
+            "method": "POST",
+            "path": "/api/auth/login",
+            "summary": "Unified Login (Author & Editor)",
+            "description": "Authenticates user against Author table first, then Admin/Editor table.",
+            "body": {
+                "email": "user@example.com (Required)",
+                "password": "password123 (Required)"
+            },
+            "responses": {
+                "200": {
+                    "description": "Login successful",
+                    "example": {
+                        "success": true,
+                        "message": "Login successful",
+                        "token": "eyJhbGciOiJIUzI1NiIsInR...",
+                        "role": "author",
+                        "user": {
+                            "id": 1,
+                            "firstName": "John",
+                            "lastName": "Doe",
+                            "email": "john@example.com",
+                            "role": "author"
+                        }
+                    }
+                },
+                "401": {
+                    "description": "Invalid credentials",
+                    "example": {
+                        "message": "Invalid credentials"
+                    }
+                }
+            }
         }
     ]
 }

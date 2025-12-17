@@ -125,15 +125,18 @@ class ManuscriptRepository {
         const year = new Date().getFullYear();
 
         // Find the last manuscript for this journal in this year
+        // We search GLOBALLY for this pattern to avoid collisions if two journals have same initials
         const lastManuscript = await Manuscript.findOne({
             where: {
-                journal_id: journalId,
                 manuscript_id: {
                     [require('sequelize').Op.like]: `${initials}-${year}-%`
                 }
             },
-            order: [['createdAt', 'DESC']]
+            order: [['createdAt', 'DESC']],
+            paranoid: false // Include soft-deleted records to ensure unique ID generation
         });
+
+        console.log(`Generating ID for prefix ${initials}-${year}. Last found: ${lastManuscript ? lastManuscript.manuscript_id : 'None'}`);
 
         let sequence = 1;
         if (lastManuscript) {

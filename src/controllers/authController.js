@@ -9,9 +9,13 @@ exports.login = async (req, res, next) => {
         }
 
         const { email, password } = req.body;
-        const { token, role } = await authService.login(email, password);
+        const result = await authService.login(email, password);
 
-        res.json({ token, role, message: 'Login successful' });
+        res.json({
+            success: true,
+            message: 'Login successful',
+            ...result
+        });
     } catch (error) {
         console.log("error", error)
         if (error.message === 'Invalid credentials') {

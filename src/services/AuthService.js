@@ -22,26 +22,72 @@ class AuthService {
         return Math.floor(100000 + Math.random() * 900000).toString();
     }
     async login(email, password) {
-        console.log(email, password);
+        console.log('Login attempt for:', email);
+
+        // 1. Check Author Table First
+        const author = await authorRepository.findByEmail(email);
+
+        if (author) {
+            const isMatch = await bcrypt.compare(password, author.password);
+            if (isMatch) {
+                const token = jwt.sign(
+                    { id: author.id, email: author.email, role: 'author' },
+                    process.env.JWT_SECRET || 'secret',
+                    { expiresIn: '24h' }
+                );
+
+                // Return minimum required author details
+                return {
+                    token,
+                    role: 'author',
+                    user: {
+                        id: author.id,
+                        firstName: author.firstName,
+                        lastName: author.lastName,
+                        email: author.email,
+                        role: 'author'
+                    }
+                };
+            }
+            // If author exists but password wrong, we technically should fail here 
+            // to avoid probing, or continue to check admin? 
+            // Usually if email exists in one table, we expect the password to match there.
+            // But let's stick to the prompt: "if not found in this then check for editor"
+            // The prompt says "first check author exits if exits ... and if not found in this"
+            // It implies if *user* not found. If user found but wrong password, it's invalid creds.
+            console.log('Password mismatch for author:', email);
+            throw new Error('Invalid credentials');
+        }
+
+        // 2. Check Admin/Editor Table
         const admin = await adminRepository.findByEmail(email);
-        if (!admin) {
-            console.log('Admin not found for email:', email);
+
+        if (admin) {
+            const isMatch = await bcrypt.compare(password, admin.password);
+            if (isMatch) {
+                const token = jwt.sign(
+                    { id: admin.id, email: admin.email, role: admin.role },
+                    process.env.JWT_SECRET || 'secret',
+                    { expiresIn: '24h' }
+                );
+
+                return {
+                    token,
+                    role: admin.role, // 'admin' or 'editor'
+                    user: {
+                        id: admin.id,
+                        email: admin.email,
+                        role: admin.role
+                    }
+                };
+            }
+            console.log('Password mismatch for admin:', email);
             throw new Error('Invalid credentials');
         }
 
-        const isMatch = await bcrypt.compare(password, admin.password);
-        if (!isMatch) {
-            console.log('Password mismatch for email:', email);
-            throw new Error('Invalid credentials');
-        }
-
-        const token = jwt.sign(
-            { id: admin.id, email: admin.email, role: admin.role },
-            process.env.JWT_SECRET || 'secret',
-            { expiresIn: '1h' }
-        );
-
-        return { token, role: admin.role };
+        // 3. Not found in either
+        console.log('User not found in Author or Admin tables:', email);
+        throw new Error('Invalid credentials');
     }
 
     async registerAuthor(authorData) {
