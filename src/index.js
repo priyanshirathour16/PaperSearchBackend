@@ -31,6 +31,7 @@ app.use('/api/journal-impact-factors', require('./routes/journalImpactFactorRout
 app.use('/api/contact-us', require('./routes/contactUsRoutes'));
 app.use('/api/manuscripts', require('./routes/manuscriptRoutes'));
 app.use('/api/otp', require('./routes/otpRoutes'));
+app.use('/api/publications', require('./routes/publicationRoutes'));
 
 
 // Global Error Handler

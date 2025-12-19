@@ -1,244 +1,227 @@
 {
-    "endpoints": [
-        {
-            "method": "POST",
-            "path": "/api/manuscripts",
-            "summary": "Submit a new Manuscript",
-            "contentType": "multipart/form-data",
-            "body": {
-                "journal": "1 (Integer, Required)",
-                "name": "John Doe (String, Required)",
-                "email": "john@example.com (String, Required)",
-                "phone": "Optional",
-                "paperTitle": "Required",
-                "wordCount": "Optional",
-                "manuscriptFile": "File (Required)",
-                "signature": "File (Image, Optional)",
-                "authors": "JSON String Array: [{\"firstName\":\"A\",\"lastName\":\"B\",\"email\":\"...\"}]"
-            },
-            "responses": {
-                "201": {
-                    "description": "Manuscript submitted successfully"
+    "manuscript_submission": {
+        "title": "Manuscript Submission API",
+        "base_url": "/api/manuscripts",
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/submit",
+                "description": "Submit a new manuscript",
+                "headers": {
+                    "Content-Type": "multipart/form-data"
                 },
-                "400": {
-                    "description": "Validation error"
+                "body": {
+                    "journal_id": "Integer (Required)",
+                    "manuscript_type": "String (Required)",
+                    "paper_title": "String (Required)",
+                    "abstract": "String (Required)",
+                    "keywords": "String (Required)",
+                    "word_count": "Integer (Optional)",
+                    "no_of_words_text": "String (Optional)",
+                    "page_count": "Integer (Optional)",
+                    "table_count": "Integer (Optional)",
+                    "figure_count": "Integer (Optional)",
+                    "author_first_name": "String (Required)",
+                    "author_last_name": "String (Required)",
+                    "author_email": "String (Required)",
+                    "author_country": "String (Required)",
+                    "author_phone": "String (Required)",
+                    "author_institution": "String (Required)",
+                    "author_department": "String (Optional)",
+                    "author_state": "String (Optional)",
+                    "author_city": "String (Optional)",
+                    "author_address": "String (Required)",
+                    "reviewer_first_name": "String (Optional)",
+                    "reviewer_last_name": "String (Optional)",
+                    "reviewer_email": "String (Optional)",
+                    "reviewer_phone": "String (Optional)",
+                    "reviewer_country": "String (Optional)",
+                    "reviewer_institution": "String (Optional)",
+                    "reviewer_designation": "String (Optional)",
+                    "reviewer_specialisation": "String (Optional)",
+                    "reviewer_department": "String (Optional)",
+                    "reviewer_state": "String (Optional)",
+                    "reviewer_city": "String (Optional)",
+                    "reviewer_address": "String (Optional)",
+                    "manuscriptFile": "File (Required, .doc, .docx, .pdf)",
+                    "coverLetter": "File (Optional, .doc, .docx, .pdf)"
                 },
-                "409": {
-                    "description": "Author already exists. Please login to submit."
-                },
-                "500": {
-                    "description": "Server error"
+                "response": {
+                    "success": {
+                        "message": "Manuscript submitted successfully",
+                        "manuscriptId": "UUID"
+                    },
+                    "error": {
+                        "message": "Error message"
+                    }
                 }
-            }
-        },
-        {
-            "method": "GET",
-            "path": "/api/manuscripts",
-            "summary": "Get all manuscripts (Basic Info)",
-            "response": {
-                "message": "Manuscripts fetched successfully",
-                "data": [
+            },
+            {
+                "method": "GET",
+                "path": "/",
+                "description": "Get all manuscripts",
+                "response": [
                     {
                         "id": 1,
-                        "manuscript_id": "4c0a0b67-0c66-490c-899a-d397d1230152",
-                        "submitter_name": "John Doe",
-                        "submitter_email": "john@example.com",
-                        "createdAt": "2025-12-10T10:00:00.000Z",
-                        "status": "Submitted",
-                        "journal": {
-                            "title": "International Journal of Science"
-                        }
+                        "paper_title": "Sample Paper",
+                        "status": "Submitted"
+                    }
+                ]
+            },
+            {
+                "method": "GET",
+                "path": "/:id",
+                "description": "Get manuscript by ID",
+                "response": {
+                    "id": 1,
+                    "paper_title": "Sample Paper"
+                }
+            },
+            {
+                "method": "GET",
+                "path": "/author/:authorId",
+                "description": "Get manuscripts by Author ID",
+                "response": [
+                    {
+                        "id": 1,
+                        "paper_title": "Sample Paper"
                     }
                 ]
             }
-        },
-        {
-            "method": "GET",
-            "path": "/api/manuscripts/author/:authorId",
-            "summary": "Get all manuscripts by author ID",
-            "responses": {
-                "200": {
-                    "description": "List of manuscripts",
-                    "body": [
+        ]
+    },
+    "publication_api": {
+        "title": "Manuscript Publication API",
+        "base_url": "/api/publications",
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/",
+                "description": "Create a new publication (Admin only)",
+                "headers": {
+                    "Authorization": "Bearer <token>",
+                    "Content-Type": "multipart/form-data"
+                },
+                "body": {
+                    "journal_id": "Integer (Required)",
+                    "issue_id": "Integer (Required)",
+                    "manuscript_id": "String (Required)",
+                    "title": "String (Required)",
+                    "author_name": "String (Required)",
+                    "doi": "String (Optional)",
+                    "pages": "String (Optional)",
+                    "author_affiliations": "String (Optional)",
+                    "abstract_description": "String (Optional)",
+                    "abstract_keywords": "String (Optional)",
+                    "pdf_file": "File (Required, .pdf)"
+                },
+                "response": {
+                    "success": true,
+                    "message": "Publication created successfully",
+                    "data": {
+                        "id": 1,
+                        "title": "Sample Paper"
+                    }
+                }
+            },
+            {
+                "method": "GET",
+                "path": "/",
+                "description": "Get all publications",
+                "query_params": {
+                    "journal_id": "Integer (Optional)",
+                    "issue_id": "Integer (Optional)",
+                    "search": "String (Optional)"
+                },
+                "response": {
+                    "success": true,
+                    "count": 10,
+                    "message": "Publications fetched successfully",
+                    "data": [
                         {
-                            "id": 11,
-                            "manuscript_id": "cb148cef-259f-4f3d-8ae2-5afa627cc40a",
-                            "journal_id": 14,
-                            "author_id": 22,
-                            "paper_title": "ksahfkjhsdfkj",
-                            "word_count": 657567,
-                            "page_count": 5,
-                            "table_count": 66,
-                            "figure_count": 54,
-                            "reviewer_first_name": "avhsxnabbvcac",
-                            "reviewer_last_name": "hfhfhgfh",
-                            "reviewer_email": "bvnvn@fcghfhg.ghfhgfh",
-                            "reviewer_phone": "565656565",
-                            "reviewer_institution": "nhvhghjgjhgjhfvjh",
-                            "keywords": "hfhjgjhgjgjg",
-                            "abstract": "jhgjhgjgjj",
-                            "manuscript_file_path": "uploads\\manuscripts\\1765823214352-840692807.pdf",
-                            "signature_file_path": "uploads\\signatures\\1765823214353-285928076.png",
-                            "status": "Submitted",
-                            "createdAt": "2025-12-15T18:26:54.000Z",
-                            "updatedAt": "2025-12-15T18:26:54.000Z",
-                            "deletedAt": null,
+                            "id": 1,
+                            "manuscript_id": "MS-2024-001",
+                            "title": "Sample Paper",
+                            "author_name": "Dr. John Doe",
+                            "doi": "10.1234/journal.2024.001",
+                            "pages": "10-25",
+                            "author_affiliations": "University of Science",
+                            "abstract_description": "This is a detailed abstract...",
+                            "abstract_keywords": "Science, Technology, Innovation",
+                            "pdf_file": "uploads/publications/paper.pdf",
                             "journal": {
-                                "title": "Journal In Cat 1765274293379",
-                                "print_issn": "1111-1111"
+                                "id": 1,
+                                "title": "Journal Name",
+                                "print_issn": "1234-5678",
+                                "e_issn": "8765-4321",
+                                "editors": "Editor Name",
+                                "frequency": "Monthly",
+                                "indexation": "Indexation Details",
+                                "start_year": 2020,
+                                "end_year": null,
+                                "mission": "Mission Statement",
+                                "aims_scope": "Aims and Scope",
+                                "areas_covered": [
+                                    "Area 1",
+                                    "Area 2"
+                                ],
+                                "image": "image.jpg",
+                                "category_id": 1
                             },
-                            "authors": [
-                                {
-                                    "id": 10,
-                                    "manuscript_id": 11,
-                                    "first_name": "wnwkdjkwdjkl",
-                                    "last_name": "hwdjhwgdj",
-                                    "email": "hwdjhgj@jwdjhjk.djhdj",
-                                    "confirm_email": "hwdjhgj@jwdjhjk.djhdj",
-                                    "phone": "1234567890",
-                                    "country": "India",
-                                    "institution": "jb",
-                                    "department": "5yjggsjhqgsj",
-                                    "state": "dajsfnkjsl",
-                                    "city": "hwqgjyqgj",
-                                    "address": "shvvjhsdkw",
-                                    "is_corresponding_author": true,
-                                    "createdAt": "2025-12-15T18:26:54.000Z",
-                                    "updatedAt": "2025-12-15T18:26:54.000Z"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "500": {
-                    "description": "Server error"
-                }
-            }
-        },
-        {
-            "method": "GET",
-            "path": "/api/manuscripts/:id",
-            "summary": "Get manuscript details by Public ID (UUID)",
-            "response": {
-                "message": "Manuscript details fetched successfully",
-                "data": {
-                    "id": 1,
-                    "manuscript_id": "4c0a0b67-0c66-490c-899a-d397d1230152",
-                    "journal_id": 19,
-                    "submitter_name": "John Doe",
-                    "submitter_email": "john@example.com",
-                    "submitter_phone": "123-456-7890",
-                    "paper_title": "The Impact of AI on Modern Coding",
-                    "word_count": 5000,
-                    "page_count": 25,
-                    "table_count": 3,
-                    "figure_count": 5,
-                    "reviewer_first_name": "Jane",
-                    "reviewer_last_name": "Smith",
-                    "reviewer_email": "jane.smith@university.edu",
-                    "reviewer_phone": "987-654-3210",
-                    "reviewer_institution": "Tech University",
-                    "keywords": "AI, Coding, LLM, Agents",
-                    "abstract": "This study explores the efficiency of autonomous agents in software development...",
-                    "manuscript_file_path": "uploads/manuscripts/1765308410927-631093674.pdf",
-                    "signature_file_path": "uploads/signatures/1765308410930-331788620.png",
-                    "status": "Submitted",
-                    "createdAt": "2025-12-10T10:00:00.000Z",
-                    "updatedAt": "2025-12-10T10:00:00.000Z",
-                    "deletedAt": null,
-                    "journal": {
-                        "title": "International Journal of Science",
-                        "print_issn": "1234-5678"
-                    },
-                    "authors": [
-                        {
-                            "id": 1,
-                            "manuscript_id": 1,
-                            "first_name": "Alice",
-                            "last_name": "Johnson",
-                            "email": "alice@example.com",
-                            "confirm_email": "alice@example.com",
-                            "phone": "555-0101",
-                            "country": "USA",
-                            "institution": "MIT",
-                            "department": "Computer Science",
-                            "state": "MA",
-                            "city": "Cambridge",
-                            "address": "77 Massachusetts Ave",
-                            "is_corresponding_author": true,
-                            "createdAt": "2025-12-10T10:00:00.000Z",
-                            "updatedAt": "2025-12-10T10:00:00.000Z"
+                            "issue": {
+                                "volume": "Vol 1",
+                                "issue_no": "Issue 1",
+                                "year": 2024
+                            }
                         }
                     ]
                 }
-            }
-        },
-        {
-            "method": "POST",
-            "path": "/api/auth/login",
-            "summary": "Unified Login (Author & Editor)",
-            "description": "Authenticates user against Author table first, then Admin/Editor table.",
-            "body": {
-                "email": "user@example.com (Required)",
-                "password": "password123 (Required)"
             },
-            "responses": {
-                "200": {
-                    "description": "Login successful",
-                    "example": {
-                        "success": true,
-                        "message": "Login successful",
-                        "token": "eyJhbGciOiJIUzI1NiIsInR...",
-                        "role": "author",
-                        "user": {
+            {
+                "method": "GET",
+                "path": "/:id",
+                "description": "Get publication by ID",
+                "response": {
+                    "success": true,
+                    "message": "Publication details fetched successfully",
+                    "data": {
+                        "id": 1,
+                        "manuscript_id": "MS-2024-001",
+                        "title": "Sample Paper",
+                        "author_name": "Dr. John Doe",
+                        "doi": "10.1234/journal.2024.001",
+                        "pages": "10-25",
+                        "author_affiliations": "University of Science",
+                        "abstract_description": "This is a detailed abstract...",
+                        "abstract_keywords": "Science, Technology, Innovation",
+                        "pdf_file": "uploads/publications/paper.pdf",
+                        "journal": {
                             "id": 1,
-                            "firstName": "John",
-                            "lastName": "Doe",
-                            "email": "john@example.com",
-                            "role": "author"
+                            "title": "Journal Name",
+                            "print_issn": "1234-5678",
+                            "e_issn": "8765-4321",
+                            "editors": "Editor Name",
+                            "frequency": "Monthly",
+                            "indexation": "Indexation Details",
+                            "start_year": 2020,
+                            "end_year": null,
+                            "mission": "Mission Statement",
+                            "aims_scope": "Aims and Scope",
+                            "areas_covered": [
+                                "Area 1",
+                                "Area 2"
+                            ],
+                            "image": "image.jpg",
+                            "category_id": 1
+                        },
+                        "issue": {
+                            "volume": "Vol 1",
+                            "issue_no": "Issue 1",
+                            "year": 2024
                         }
                     }
-                },
-                "401": {
-                    "description": "Invalid credentials",
-                    "example": {
-                        "message": "Invalid credentials"
-                    }
                 }
             }
-        },
-        {
-            "method": "POST",
-            "path": "/api/auth/change-password",
-            "summary": "Change User Password",
-            "description": "Change the password for the logged-in user (Author, Admin, or Editor). Requires current password.",
-            "headers": {
-                "Authorization": "Bearer <token>"
-            },
-            "body": {
-                "currentPassword": "oldPassword123 (Required)",
-                "newPassword": "newPassword456 (Required - Min 6 chars)"
-            },
-            "responses": {
-                "200": {
-                    "description": "Password changed successfully",
-                    "example": {
-                        "message": "Password changed successfully"
-                    }
-                },
-                "400": {
-                    "description": "Validation error or Incorrect current password",
-                    "example": {
-                        "message": "Current password incorrect"
-                    }
-                },
-                "401": {
-                    "description": "Unauthorized (Invalid/Missing Token)"
-                },
-                "404": {
-                    "description": "User not found"
-                }
-            }
-        }
-    ]
+        ]
+    }
 }
