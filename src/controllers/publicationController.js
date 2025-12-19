@@ -25,7 +25,7 @@ exports.createPublication = async (req, res) => {
             });
         }
 
-        const pdf_path = req.file.path;
+        const pdf_path = req.file.filename;
 
         const publication = await Publication.create({
             journal_id,
@@ -111,6 +111,62 @@ exports.getPublicationById = async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching publication:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+};
+
+exports.updatePublication = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updateData = req.body;
+
+        const publication = await Publication.findByPk(id);
+
+        if (!publication) {
+            return res.status(404).json({ success: false, message: 'Publication not found' });
+        }
+
+        if (req.file) {
+            updateData.pdf_path = req.file.filename;
+        }
+
+        await publication.update(updateData);
+
+        const updatedPublication = await Publication.findByPk(id, {
+            include: [
+                { model: Journal, as: 'journal' },
+                { model: JournalIssue, as: 'issue' }
+            ]
+        });
+
+        res.status(200).json({
+            success: true,
+            message: 'Publication updated successfully',
+            data: updatedPublication
+        });
+    } catch (error) {
+        console.error('Error updating publication:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+};
+
+exports.deletePublication = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const publication = await Publication.findByPk(id);
+
+        if (!publication) {
+            return res.status(404).json({ success: false, message: 'Publication not found' });
+        }
+
+        await publication.destroy();
+
+        res.status(200).json({
+            success: true,
+            message: 'Publication deleted successfully'
+        });
+    } catch (error) {
+        console.error('Error deleting publication:', error);
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
     }
 };

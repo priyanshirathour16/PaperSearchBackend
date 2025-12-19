@@ -17,4 +17,19 @@ router.post(
 router.get('/', publicationController.getAllPublications);
 router.get('/:id', publicationController.getPublicationById);
 
+router.put(
+    '/:id',
+    authMiddleware,
+    roleMiddleware,
+    upload.single('pdf_file'),
+    publicationController.updatePublication
+);
+
+router.delete(
+    '/:id',
+    authMiddleware,
+    roleMiddleware,
+    publicationController.deletePublication
+);
+
 module.exports = router;

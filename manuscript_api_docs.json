@@ -148,7 +148,7 @@
                             "author_affiliations": "University of Science",
                             "abstract_description": "This is a detailed abstract...",
                             "abstract_keywords": "Science, Technology, Innovation",
-                            "pdf_file": "uploads/publications/paper.pdf",
+                            "pdf_file": "paper.pdf",
                             "journal": {
                                 "id": 1,
                                 "title": "Journal Name",
@@ -194,7 +194,7 @@
                         "author_affiliations": "University of Science",
                         "abstract_description": "This is a detailed abstract...",
                         "abstract_keywords": "Science, Technology, Innovation",
-                        "pdf_file": "uploads/publications/paper.pdf",
+                        "pdf_file": "paper.pdf",
                         "journal": {
                             "id": 1,
                             "title": "Journal Name",
@@ -220,6 +220,48 @@
                             "year": 2024
                         }
                     }
+                }
+            },
+            {
+                "method": "PUT",
+                "path": "/:id",
+                "description": "Update a publication (Admin only)",
+                "headers": {
+                    "Authorization": "Bearer <token>",
+                    "Content-Type": "multipart/form-data"
+                },
+                "body": {
+                    "journal_id": "Integer (Optional)",
+                    "issue_id": "Integer (Optional)",
+                    "manuscript_id": "String (Optional)",
+                    "title": "String (Optional)",
+                    "author_name": "String (Optional)",
+                    "doi": "String (Optional)",
+                    "pages": "String (Optional)",
+                    "author_affiliations": "String (Optional)",
+                    "abstract_description": "String (Optional)",
+                    "abstract_keywords": "String (Optional)",
+                    "pdf_file": "File (Optional, .pdf)"
+                },
+                "response": {
+                    "success": true,
+                    "message": "Publication updated successfully",
+                    "data": {
+                        "id": 1,
+                        "title": "Updated Title"
+                    }
+                }
+            },
+            {
+                "method": "DELETE",
+                "path": "/:id",
+                "description": "Soft delete a publication (Admin only)",
+                "headers": {
+                    "Authorization": "Bearer <token>"
+                },
+                "response": {
+                    "success": true,
+                    "message": "Publication deleted successfully"
                 }
             }
         ]
