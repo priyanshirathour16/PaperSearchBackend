@@ -1,0 +1,122 @@
+{
+    "conference_api": {
+        "base_url": "/api/conferences",
+        "description": "API endpoints for managing conferences",
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/",
+                "access": "Admin",
+                "description": "Create a new conference",
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer <token>"
+                },
+                "request_body": {
+                    "name": "International Conference on AI",
+                    "organized_by": "Tech Socity",
+                    "start_date": "2024-10-15"
+                },
+                "response": {
+                    "success": {
+                        "id": 1,
+                        "name": "International Conference on AI",
+                        "organized_by": "Tech Socity",
+                        "start_date": "2024-10-15",
+                        "updatedAt": "2024-01-01T12:00:00.000Z",
+                        "createdAt": "2024-01-01T12:00:00.000Z"
+                    },
+                    "error": {
+                        "message": "Error adding conference",
+                        "error": "Error details..."
+                    }
+                }
+            },
+            {
+                "method": "PUT",
+                "path": "/:id",
+                "access": "Admin",
+                "description": "Update an existing conference",
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer <token>"
+                },
+                "request_body": {
+                    "name": "International Conference on AI (Updated)",
+                    "organized_by": "Global Tech Society",
+                    "start_date": "2024-11-20"
+                },
+                "response": {
+                    "success": {
+                        "id": 1,
+                        "name": "International Conference on AI (Updated)",
+                        "organized_by": "Global Tech Society",
+                        "start_date": "2024-11-20",
+                        "createdAt": "2024-01-01T12:00:00.000Z",
+                        "updatedAt": "2024-01-02T15:30:00.000Z"
+                    },
+                    "error": {
+                        "message": "Conference not found"
+                    }
+                }
+            },
+            {
+                "method": "DELETE",
+                "path": "/:id",
+                "access": "Admin",
+                "description": "Delete a conference (Soft Delete)",
+                "headers": {
+                    "Authorization": "Bearer <token>"
+                },
+                "response": {
+                    "success": {
+                        "message": "Conference deleted successfully"
+                    },
+                    "error": {
+                        "message": "Conference not found"
+                    }
+                }
+            },
+            {
+                "method": "GET",
+                "path": "/",
+                "access": "Public",
+                "description": "Get all conferences",
+                "response": {
+                    "success": [
+                        {
+                            "id": 1,
+                            "name": "International Conference on AI",
+                            "organized_by": "Tech Socity",
+                            "start_date": "2024-10-15",
+                            "createdAt": "2024-01-01T12:00:00.000Z",
+                            "updatedAt": "2024-01-01T12:00:00.000Z"
+                        }
+                    ],
+                    "error": {
+                        "message": "Error fetching conferences"
+                    }
+                }
+            },
+            {
+                "method": "GET",
+                "path": "/:id",
+                "access": "Public",
+                "description": "Get a specific conference by ID",
+                "response": {
+                    "success": {
+                        "id": 1,
+                        "name": "International Conference on AI",
+                        "organized_by": "Tech Socity",
+                        "start_date": "2024-10-15",
+                        "createdAt": "2024-01-01T12:00:00.000Z",
+                        "updatedAt": "2024-01-01T12:00:00.000Z"
+                    },
+                    "error": {
+                        "message": "Conference not found"
+                    }
+                }
+            }
+        ]
+    }
+}

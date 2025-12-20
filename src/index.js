@@ -32,6 +32,7 @@ app.use('/api/contact-us', require('./routes/contactUsRoutes'));
 app.use('/api/manuscripts', require('./routes/manuscriptRoutes'));
 app.use('/api/otp', require('./routes/otpRoutes'));
 app.use('/api/publications', require('./routes/publicationRoutes'));
+app.use('/api/conferences', require('./routes/conferenceRoutes'));
 
 
 // Global Error Handler

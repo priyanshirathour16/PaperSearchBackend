@@ -13,6 +13,7 @@ const ContactUs = require('./ContactUs');
 const OTP = require('./OTP');
 const SubmissionChecklist = require('./SubmissionChecklist');
 const Publication = require('./Publication');
+const Conference = require('./Conference');
 
 // Associations
 Journal.hasMany(EditorialBoard, { foreignKey: 'journal_id', as: 'editorial_board' });
@@ -62,7 +63,9 @@ const db = {
     ContactUs,
     OTP,
     SubmissionChecklist,
-    Publication
+    SubmissionChecklist,
+    Publication,
+    Conference
 };
 
 module.exports = db;
