@@ -34,6 +34,10 @@ const ConferenceTemplate = sequelize.define('ConferenceTemplate', {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    organizer_logo: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     partner_image: {
         type: DataTypes.STRING,
         allowNull: true,

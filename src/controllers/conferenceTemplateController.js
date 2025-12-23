@@ -9,6 +9,9 @@ const prepareTemplateData = (req) => {
         if (req.files['organizer_image']) {
             data.organizer_image = req.files['organizer_image'][0].filename;
         }
+        if (req.files['organizer_logo']) {
+            data.organizer_logo = req.files['organizer_logo'][0].filename;
+        }
         if (req.files['partner_image']) {
             data.partner_image = req.files['partner_image'][0].filename;
         }

@@ -15,6 +15,7 @@ router.get('/template/:conferenceId', conferenceTemplateController.getTemplateBy
 // Admin Template Routes
 router.post('/template', upload.fields([
     { name: 'organizer_image', maxCount: 1 },
+    { name: 'organizer_logo', maxCount: 1 },
     { name: 'partner_image', maxCount: 1 },
     { name: 'venue_image', maxCount: 1 },
     { name: 'keynote_speaker_images', maxCount: 20 }
@@ -22,6 +23,7 @@ router.post('/template', upload.fields([
 
 router.put('/template/:conferenceId', upload.fields([
     { name: 'organizer_image', maxCount: 1 },
+    { name: 'organizer_logo', maxCount: 1 },
     { name: 'partner_image', maxCount: 1 },
     { name: 'venue_image', maxCount: 1 },
     { name: 'keynote_speaker_images', maxCount: 20 }
