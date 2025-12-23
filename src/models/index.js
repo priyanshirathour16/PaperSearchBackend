@@ -14,6 +14,7 @@ const OTP = require('./OTP');
 const SubmissionChecklist = require('./SubmissionChecklist');
 const Publication = require('./Publication');
 const Conference = require('./Conference');
+const ConferenceTemplate = require('./ConferenceTemplate');
 
 // Associations
 Journal.hasMany(EditorialBoard, { foreignKey: 'journal_id', as: 'editorial_board' });
@@ -48,6 +49,10 @@ Publication.belongsTo(JournalIssue, { foreignKey: 'issue_id', as: 'issue' });
 
 // JournalIssue associations are defined in the JournalIssue model file
 
+// Conference Associations
+Conference.hasOne(ConferenceTemplate, { foreignKey: 'conference_id', as: 'template', onDelete: 'CASCADE' });
+ConferenceTemplate.belongsTo(Conference, { foreignKey: 'conference_id', as: 'conference' });
+
 const db = {
     sequelize,
     Admin,
@@ -65,7 +70,8 @@ const db = {
     SubmissionChecklist,
     SubmissionChecklist,
     Publication,
-    Conference
+    Conference,
+    ConferenceTemplate
 };
 
 module.exports = db;

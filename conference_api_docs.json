@@ -1,121 +1,241 @@
 {
     "conference_api": {
         "base_url": "/api/conferences",
-        "description": "API endpoints for managing conferences",
+        "description": "API endpoints for managing conferences and their detailed templates",
         "endpoints": [
             {
-                "method": "POST",
-                "path": "/",
-                "access": "Admin",
-                "description": "Create a new conference",
-                "headers": {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer <token>"
-                },
-                "request_body": {
-                    "name": "International Conference on AI",
-                    "organized_by": "Tech Socity",
-                    "start_date": "2024-10-15"
-                },
-                "response": {
-                    "success": {
-                        "id": 1,
-                        "name": "International Conference on AI",
-                        "organized_by": "Tech Socity",
-                        "start_date": "2024-10-15",
-                        "updatedAt": "2024-01-01T12:00:00.000Z",
-                        "createdAt": "2024-01-01T12:00:00.000Z"
-                    },
-                    "error": {
-                        "message": "Error adding conference",
-                        "error": "Error details..."
-                    }
-                }
-            },
-            {
-                "method": "PUT",
-                "path": "/:id",
-                "access": "Admin",
-                "description": "Update an existing conference",
-                "headers": {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer <token>"
-                },
-                "request_body": {
-                    "name": "International Conference on AI (Updated)",
-                    "organized_by": "Global Tech Society",
-                    "start_date": "2024-11-20"
-                },
-                "response": {
-                    "success": {
-                        "id": 1,
-                        "name": "International Conference on AI (Updated)",
-                        "organized_by": "Global Tech Society",
-                        "start_date": "2024-11-20",
-                        "createdAt": "2024-01-01T12:00:00.000Z",
-                        "updatedAt": "2024-01-02T15:30:00.000Z"
-                    },
-                    "error": {
-                        "message": "Conference not found"
-                    }
-                }
-            },
-            {
-                "method": "DELETE",
-                "path": "/:id",
-                "access": "Admin",
-                "description": "Delete a conference (Soft Delete)",
-                "headers": {
-                    "Authorization": "Bearer <token>"
-                },
-                "response": {
-                    "success": {
-                        "message": "Conference deleted successfully"
-                    },
-                    "error": {
-                        "message": "Conference not found"
-                    }
-                }
-            },
-            {
-                "method": "GET",
-                "path": "/",
-                "access": "Public",
-                "description": "Get all conferences",
-                "response": {
-                    "success": [
-                        {
-                            "id": 1,
-                            "name": "International Conference on AI",
-                            "organized_by": "Tech Socity",
-                            "start_date": "2024-10-15",
-                            "createdAt": "2024-01-01T12:00:00.000Z",
-                            "updatedAt": "2024-01-01T12:00:00.000Z"
+                "group": "Conference (Base Entity)",
+                "endpoints": [
+                    {
+                        "method": "GET",
+                        "path": "/",
+                        "description": "Get all conferences (for dropdown)",
+                        "response": {
+                            "success": [
+                                {
+                                    "id": 1,
+                                    "name": "International Conference on AI",
+                                    "createdAt": "2024-01-01T10:00:00.000Z"
+                                }
+                            ]
                         }
-                    ],
-                    "error": {
-                        "message": "Error fetching conferences"
+                    },
+                    {
+                        "method": "POST",
+                        "path": "/",
+                        "description": "Create a new conference (Base)",
+                        "request_body": {
+                            "name": "New Conference"
+                        },
+                        "response": {
+                            "success": {
+                                "id": 2,
+                                "name": "New Conference",
+                                "updatedAt": "2024-01-05T10:00:00.000Z",
+                                "createdAt": "2024-01-05T10:00:00.000Z"
+                            }
+                        }
+                    },
+                    {
+                        "method": "PUT",
+                        "path": "/:id",
+                        "description": "Update a conference (Base)",
+                        "request_body": {
+                            "name": "Updated Conference Name"
+                        },
+                        "response": {
+                            "success": {
+                                "id": 1,
+                                "name": "Updated Conference Name",
+                                "updatedAt": "2024-01-02T12:00:00.000Z"
+                            }
+                        }
+                    },
+                    {
+                        "method": "DELETE",
+                        "path": "/:id",
+                        "description": "Soft delete a conference (Base)",
+                        "response": {
+                            "success": {
+                                "message": "Conference deleted successfully"
+                            },
+                            "error": {
+                                "message": "Conference not found"
+                            }
+                        }
                     }
-                }
+                ]
             },
             {
-                "method": "GET",
-                "path": "/:id",
-                "access": "Public",
-                "description": "Get a specific conference by ID",
-                "response": {
-                    "success": {
-                        "id": 1,
-                        "name": "International Conference on AI",
-                        "organized_by": "Tech Socity",
-                        "start_date": "2024-10-15",
-                        "createdAt": "2024-01-01T12:00:00.000Z",
-                        "updatedAt": "2024-01-01T12:00:00.000Z"
+                "group": "Conference Template (Details)",
+                "endpoints": [
+                    {
+                        "method": "GET",
+                        "path": "/template",
+                        "description": "Get ALL conference templates (Descending Order) with Conference Data",
+                        "response": {
+                            "success": [
+                                {
+                                    "id": 1,
+                                    "conference_id": 1,
+                                    "conference": {
+                                        "id": 1,
+                                        "name": "International Conference on AI"
+                                    },
+                                    "description": "<p>Rich Text Description...</p>",
+                                    "organizing_committee": "<p>Rich Text Committee...</p>",
+                                    "important_dates": {
+                                        "abstract_submission": {
+                                            "startDate": "2024-01-01",
+                                            "lastDate": "2024-02-01"
+                                        },
+                                        "full_paper_submission": {
+                                            "startDate": "2024-03-01",
+                                            "lastDate": "2024-04-01"
+                                        },
+                                        "registration": {
+                                            "startDate": "2024-05-01",
+                                            "lastDate": "2024-06-01"
+                                        }
+                                    },
+                                    "key_benefits": [
+                                        "Networking",
+                                        "Publication"
+                                    ],
+                                    "who_should_join": "<p>Rich Text content...</p>",
+                                    "organizer_image": "org.jpg",
+                                    "partner_image": "part.jpg",
+                                    "conference_objectives": "<p>Rich Text Objectives...</p>",
+                                    "program_schedule": [
+                                        {
+                                            "time": "09:00",
+                                            "session": "Opening"
+                                        }
+                                    ],
+                                    "themes": "<p>Rich Text Themes...</p>",
+                                    "keynote_speakers": [
+                                        {
+                                            "name": "Jane Doe",
+                                            "designation": "CEO",
+                                            "about": "Expert in AI",
+                                            "image": "keynote_speaker_images-123456.jpg"
+                                        }
+                                    ],
+                                    "venue": {
+                                        "name": "Grand Hall",
+                                        "map_link": "https://maps.google.com/..."
+                                    },
+                                    "venue_image": "venue.jpg",
+                                    "past_conferences": [
+                                        {
+                                            "year": 2023
+                                        }
+                                    ],
+                                    "organisers": "<p>Rich Text Organisers...</p>",
+                                    "steering_committee": [
+                                        {
+                                            "name": "Alan"
+                                        }
+                                    ],
+                                    "review_board": [
+                                        {
+                                            "name": "Grace"
+                                        }
+                                    ],
+                                    "call_for_papers": "<p>Rich Text Call...</p>",
+                                    "guidelines": "<p>Rich Text Guidelines...</p>",
+                                    "createdAt": "2024-01-05T10:00:00.000Z",
+                                    "updatedAt": "2024-01-05T10:00:00.000Z"
+                                }
+                            ]
+                        }
                     },
-                    "error": {
-                        "message": "Conference not found"
+                    {
+                        "method": "POST",
+                        "path": "/template",
+                        "description": "Create or Update a detailed template. Supports multipart/form-data.",
+                        "headers": {
+                            "Content-Type": "multipart/form-data"
+                        },
+                        "request_body": {
+                            "conference_id": "1 (Integer)",
+                            "description": "<p>Rich Text...</p>",
+                            "organizing_committee": "<p>Rich Text...</p>",
+                            "important_dates": "{\"abstract_submission\": {\"startDate\": \"2024-01-01\", \"lastDate\": \"2024-02-01\"}} (JSON String)",
+                            "key_benefits": "[\"Benefit 1\"] (JSON String)",
+                            "who_should_join": "<p>Rich Text...</p>",
+                            "organizer_image": "FILE",
+                            "partner_image": "FILE",
+                            "venue_image": "FILE",
+                            "conference_objectives": "<p>Rich Text...</p>",
+                            "program_schedule": "JSON String",
+                            "themes": "<p>Rich Text...</p>",
+                            "keynote_speakers": "[{\"name\": \"Jane\", \"designation\": \"CEO\", \"about\": \"...\", \"image_index\": 0}] (JSON String - use image_index to map to uploaded files)",
+                            "keynote_speaker_images": "[FILE, FILE] (Multiple files)",
+                            "venue": "{\"name\": \"Hall\", \"map_link\": \"http...\"} (JSON String)",
+                            "past_conferences": "JSON String",
+                            "organisers": "<p>Rich Text...</p>",
+                            "steering_committee": "JSON String",
+                            "review_board": "JSON String",
+                            "call_for_papers": "<p>Rich Text...</p>",
+                            "guidelines": "<p>Rich Text...</p>"
+                        },
+                        "response": {
+                            "success": {
+                                "id": 1,
+                                "conference_id": 1,
+                                "updatedAt": "..."
+                            }
+                        }
+                    },
+                    {
+                        "method": "GET",
+                        "path": "/template/:conferenceId",
+                        "description": "Get details for a specific conference with Conference Data",
+                        "response": {
+                            "success": {
+                                "id": 1,
+                                "conference_id": 1,
+                                "conference": {
+                                    "id": 1,
+                                    "name": "International Conference on AI"
+                                },
+                                "description": "...",
+                                "createdAt": "...",
+                                "updatedAt": "..."
+                            },
+                            "error": {
+                                "message": "Template not found"
+                            }
+                        }
+                    },
+                    {
+                        "method": "PUT",
+                        "path": "/template/:conferenceId",
+                        "description": "Update details. Accepts same body as POST.",
+                        "headers": {
+                            "Content-Type": "multipart/form-data"
+                        },
+                        "request_body": {
+                            "description": "Updated..."
+                        },
+                        "response": {
+                            "success": {
+                                "id": 1
+                            }
+                        }
+                    },
+                    {
+                        "method": "DELETE",
+                        "path": "/template/:conferenceId",
+                        "description": "Soft delete",
+                        "response": {
+                            "success": {
+                                "message": "Template deleted successfully"
+                            }
+                        }
                     }
-                }
+                ]
             }
         ]
     }

@@ -1,39 +1,30 @@
-const Conference = require('../models/Conference');
+const conferenceRepository = require('../repositories/ConferenceRepository');
 
-// Add Conference
+// Add Conference (Base Entity)
 exports.addConference = async (req, res) => {
     try {
-        const { name, organized_by, start_date } = req.body;
-        const newConference = await Conference.create({
-            name,
-            organized_by,
-            start_date
-        });
-        res.status(201).json(newConference);
+        const data = req.body; // Expects { name: "Conference Name" }
+        const newConference = await conferenceRepository.create(data);
+        res.status(201).json({ success: newConference });
     } catch (error) {
-        res.status(500).json({ message: 'Error adding conference', error: error.message });
+        res.status(500).json({ error: { message: 'Error adding conference', details: error.message } });
     }
 };
 
-// Edit Conference
+// Edit Conference (Name only)
 exports.editConference = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, organized_by, start_date } = req.body;
-        const conference = await Conference.findByPk(id);
+        const data = req.body;
+        const updatedConference = await conferenceRepository.update(id, data);
 
-        if (!conference) {
-            return res.status(404).json({ message: 'Conference not found' });
+        if (!updatedConference) {
+            return res.status(404).json({ error: { message: 'Conference not found' } });
         }
 
-        conference.name = name || conference.name;
-        conference.organized_by = organized_by || conference.organized_by;
-        conference.start_date = start_date || conference.start_date;
-
-        await conference.save();
-        res.status(200).json(conference);
+        res.status(200).json({ success: updatedConference });
     } catch (error) {
-        res.status(500).json({ message: 'Error updating conference', error: error.message });
+        res.status(500).json({ error: { message: 'Error updating conference', details: error.message } });
     }
 };
 
@@ -41,26 +32,25 @@ exports.editConference = async (req, res) => {
 exports.deleteConference = async (req, res) => {
     try {
         const { id } = req.params;
-        const conference = await Conference.findByPk(id);
+        const deleted = await conferenceRepository.delete(id);
 
-        if (!conference) {
-            return res.status(404).json({ message: 'Conference not found' });
+        if (!deleted) {
+            return res.status(404).json({ error: { message: 'Conference not found' } });
         }
 
-        await conference.destroy();
-        res.status(200).json({ message: 'Conference deleted successfully' });
+        res.status(200).json({ success: { message: 'Conference deleted successfully' } });
     } catch (error) {
-        res.status(500).json({ message: 'Error deleting conference', error: error.message });
+        res.status(500).json({ error: { message: 'Error deleting conference', details: error.message } });
     }
 };
 
-// Get All Conferences
+// Get All Conferences (Commonly for Dropdown)
 exports.getAllConferences = async (req, res) => {
     try {
-        const conferences = await Conference.findAll();
-        res.status(200).json(conferences);
+        const conferences = await conferenceRepository.getAll();
+        res.status(200).json({ success: conferences });
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching conferences', error: error.message });
+        res.status(500).json({ error: { message: 'Error fetching conferences', details: error.message } });
     }
 };
 
@@ -68,14 +58,14 @@ exports.getAllConferences = async (req, res) => {
 exports.getConferenceById = async (req, res) => {
     try {
         const { id } = req.params;
-        const conference = await Conference.findByPk(id);
+        const conference = await conferenceRepository.getById(id);
 
         if (!conference) {
-            return res.status(404).json({ message: 'Conference not found' });
+            return res.status(404).json({ error: { message: 'Conference not found' } });
         }
 
-        res.status(200).json(conference);
+        res.status(200).json({ success: conference });
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching conference', error: error.message });
+        res.status(500).json({ error: { message: 'Error fetching conference', details: error.message } });
     }
 };
