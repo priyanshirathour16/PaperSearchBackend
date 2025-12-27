@@ -2,18 +2,14 @@ const nodemailer = require('nodemailer');
 
 class EmailService {
     constructor() {
-        // Configure transporter with Reseller Club SMTP settings
-        // Configure transporter with SMTP settings from environment variables or defaults
         this.transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST || 'mail.elkjournals.com',
-            port: process.env.SMTP_PORT || 587,
-            secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+            service: 'gmail',
             auth: {
-                user: process.env.SMTP_USER || 'info@elkjournals.com',
-                pass: process.env.SMTP_PASS || 'Puneet@842'
-            },
-            tls: {
-                rejectUnauthorized: false // Allow self-signed certs if necessary
+                type: 'OAuth2',
+                user: process.env.GMAIL_USER,
+                clientId: process.env.GMAIL_CLIENT_ID,
+                clientSecret: process.env.GMAIL_CLIENT_SECRET,
+                refreshToken: process.env.GMAIL_REFRESH_TOKEN
             }
         });
     }
@@ -29,7 +25,7 @@ class EmailService {
     async sendEmail({ to, subject, html, text }) {
         try {
             const mailOptions = {
-                from: '"ELK Journals" <info@elkjournals.com>',
+                from: `"ELK Journals" <${process.env.GMAIL_USER || 'info@elkjournals.com'}>`,
                 to,
                 subject,
                 html,
