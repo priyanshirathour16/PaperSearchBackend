@@ -117,6 +117,11 @@ class JournalRepository {
                 {
                     model: JournalIssue,
                     as: 'issues'
+                },
+                {
+                    model: require('../models').JournalImpactFactor,
+                    as: 'impact_factors',
+                    required: false
                 }
             ],
             order: [['createdAt', 'DESC']]

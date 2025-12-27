@@ -90,16 +90,13 @@ class JournalService {
                 print: journal.print_issn || null,
                 online: journal.e_issn || null
             },
-            impactFactors: [
-                { year: 2020, score: "4.87045" },
-                { year: 2019, score: "4.285" },
-                { year: 2017, score: "3.55" },
-                { year: 2015, score: "2.059" },
-                { year: 2014, score: "2.049" },
-                { year: 2013, score: "1.789" },
-                { year: 2012, score: "0.803" },
-                { year: 2011, score: "0.525" }
-            ],
+            impactFactors: (journal.impact_factors && journal.impact_factors.length > 0)
+                ? journal.impact_factors.map(ifData => ({
+                    year: ifData.year,
+                    score: ifData.impact_factor
+                })).sort((a, b) => b.year - a.year) // Sort by year descending
+                : [
+                ],
             about: [
                 journal.mission || "Mission statement...",
                 journal.aims_scope || "Aims and scope..."
