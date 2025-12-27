@@ -42,6 +42,24 @@ class JournalCategoryRepository {
             order: [['title', 'ASC']]
         });
     }
+
+    async findAllWithJournalsAndIssues() {
+        const { Journal, JournalIssue } = require('../models');
+        return await JournalCategory.findAll({
+            where: { status: true },
+            attributes: ['id', 'title', 'route'],
+            include: [{
+                model: Journal,
+                as: 'journals',
+                attributes: ['id', 'title', 'print_issn', 'e_issn'],
+                include: [{
+                    model: JournalIssue,
+                    as: 'issues'
+                }]
+            }],
+            order: [['title', 'ASC']]
+        });
+    }
 }
 
 module.exports = new JournalCategoryRepository();

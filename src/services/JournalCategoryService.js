@@ -22,6 +22,10 @@ class JournalCategoryService {
     async getCategoriesWithJournals() {
         return await journalCategoryRepository.findAllWithJournals();
     }
+
+    async getCategoriesWithJournalsAndIssues() {
+        return await journalCategoryRepository.findAllWithJournalsAndIssues();
+    }
 }
 
 module.exports = new JournalCategoryService();

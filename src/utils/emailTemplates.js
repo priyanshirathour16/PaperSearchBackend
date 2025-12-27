@@ -184,7 +184,7 @@ const submissionAcknowledgmentTemplate = (data) => {
             </div>
             <div class="footer">
                 <p>This is an automated email. Please do not reply to this message.</p>
-                <p>For any queries, please contact us at supportdesk@elkjournals.com</p>
+                <p>For any queries, please contact us at info@elkjournals.com</p>
             </div>
         </div>
     </body>
@@ -280,7 +280,7 @@ const welcomeAuthorTemplate = (data) => {
             </div>
             <div class="footer">
                 <p>This is an automated email. Please do not reply to this message.</p>
-                <p>For any queries, please contact us at supportdesk@elkjournals.com</p>
+                <p>For any queries, please contact us at info@elkjournals.com</p>
             </div>
         </div>
     </body>

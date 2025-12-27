@@ -10,6 +10,7 @@ router.delete('/:id', authMiddleware, roleMiddleware, journalCategoryController.
 
 // Public routes (Optional, but usually you want to fetch them)
 router.get('/with-journals', journalCategoryController.getCategoriesWithJournals);
+router.get('/with-journals-and-issues', journalCategoryController.getCategoriesWithJournalsAndIssues);
 router.get('/', journalCategoryController.getAllCategories);
 
 module.exports = router;
