@@ -243,6 +243,57 @@ class AuthService {
 
         return { message: 'Password changed successfully' };
     }
+
+    async verifyUser(email) {
+        // 1. Check Author
+        const author = await authorRepository.findByEmail(email);
+        if (author) {
+            return {
+                success: true,
+                id: author.id,
+                email: author.email,
+                role: 'author',
+                message: 'User found in Author records'
+            };
+        }
+
+        // 2. Check Editor
+        const editor = await editorApplicationRepository.findByEmail(email);
+        if (editor) {
+            return {
+                success: true,
+                id: editor.id,
+                email: editor.email,
+                role: 'editor',
+                message: 'User found in Editor records'
+            };
+        }
+
+        throw new Error('User not found in Author or Editor records');
+    }
+
+    async resetPassword(email, role, newPassword) {
+        let repository;
+
+        if (role === 'author') {
+            repository = authorRepository;
+        } else if (role === 'editor') {
+            repository = editorApplicationRepository;
+        } else {
+            throw new Error('Invalid role');
+        }
+
+        const user = await repository.findByEmail(email);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        return { success: true, message: 'Password updated successfully' };
+    }
 }
 
 module.exports = new AuthService();

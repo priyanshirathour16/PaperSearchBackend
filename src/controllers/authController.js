@@ -109,3 +109,44 @@ exports.changePassword = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.verifyUser = async (req, res, next) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { email } = req.body;
+        const result = await authService.verifyUser(email);
+
+        res.status(200).json(result);
+    } catch (error) {
+        if (error.message === 'User not found in Author or Editor records') {
+            return res.status(404).json({ message: error.message });
+        }
+        next(error);
+    }
+};
+
+exports.resetPassword = async (req, res, next) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { email, role, newPassword } = req.body;
+        const result = await authService.resetPassword(email, role, newPassword);
+
+        res.status(200).json(result);
+    } catch (error) {
+        if (error.message === 'User not found') {
+            return res.status(404).json({ message: error.message });
+        }
+        if (error.message === 'Invalid role') {
+            return res.status(400).json({ message: error.message });
+        }
+        next(error);
+    }
+};

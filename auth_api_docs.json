@@ -1,0 +1,61 @@
+{
+    "auth_api": {
+        "base_url": "/api/auth",
+        "description": "API endpoints for user authentication and password management",
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/verify-user",
+                "description": "Verify if an email exists in Author or Editor records. Returns user details if found.",
+                "request_body": {
+                    "email": "user@example.com"
+                },
+                "response": {
+                    "success": {
+                        "success": true,
+                        "id": 123,
+                        "email": "user@example.com",
+                        "role": "author",
+                        "message": "User found in Author records"
+                    },
+                    "error": {
+                        "message": "User not found in Author or Editor records"
+                    }
+                }
+            },
+            {
+                "method": "POST",
+                "path": "/reset-password",
+                "description": "Reset user password directly using email and role.",
+                "request_body": {
+                    "email": "user@example.com",
+                    "role": "author",
+                    "newPassword": "newSecurePassword123"
+                },
+                "response": {
+                    "success": {
+                        "success": true,
+                        "message": "Password updated successfully"
+                    },
+                    "error": [
+                        {
+                            "message": "User not found"
+                        },
+                        {
+                            "message": "Invalid role"
+                        },
+                        {
+                            "errors": [
+                                {
+                                    "msg": "Please enter a valid email",
+                                    "param": "email",
+                                    "location": "body"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

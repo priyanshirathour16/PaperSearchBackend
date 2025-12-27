@@ -56,6 +56,24 @@ router.post(
     authController.verifyOtpLogin
 );
 
+router.post(
+    '/verify-user',
+    [
+        body('email').isEmail().withMessage('Please enter a valid email').trim().toLowerCase(),
+    ],
+    authController.verifyUser
+);
+
+router.post(
+    '/reset-password',
+    [
+        body('email').isEmail().withMessage('Please enter a valid email').trim().toLowerCase(),
+        body('role').isIn(['author', 'editor']).withMessage('Role must be author or editor'),
+        body('newPassword').isLength({ min: 6 }).withMessage('New Password must be at least 6 characters long')
+    ],
+    authController.resetPassword
+);
+
 const authMiddleware = require('../middleware/authMiddleware');
 
 router.post(
